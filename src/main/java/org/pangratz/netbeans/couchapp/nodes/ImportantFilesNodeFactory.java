@@ -4,6 +4,7 @@
  */
 package org.pangratz.netbeans.couchapp.nodes;
 
+import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,11 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
+import org.openide.nodes.AbstractNode;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
 
 @NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 100)
 public class ImportantFilesNodeFactory implements NodeFactory {
@@ -36,13 +39,29 @@ public class ImportantFilesNodeFactory implements NodeFactory {
 
     private static class ImportantFilesNode extends FilterNode {
 
+        private final Image icon;
+
         private ImportantFilesNode(Node original) throws DataObjectNotFoundException {
             super(original, new ProxyChildren(original));
+
+            Image configBadgeIcon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/config-badge.gif");
+            Image couchdDbIcon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png");
+            icon = ImageUtilities.mergeImages(couchdDbIcon, configBadgeIcon, 7, 7);
         }
 
         @Override
         public String getDisplayName() {
             return "Important Files";
+        }
+
+        @Override
+        public Image getIcon(int type) {
+            return icon;
+        }
+
+        @Override
+        public Image getOpenedIcon(int type) {
+            return getIcon(type);
         }
     }
 
@@ -57,7 +76,7 @@ public class ImportantFilesNodeFactory implements NodeFactory {
             List<Node> result = new ArrayList<Node>();
 
             for (Node node : super.createNodes(key)) {
-                DataObject dataObject = (DataObject)node.getLookup().lookup(DataObject.class);
+                DataObject dataObject = (DataObject) node.getLookup().lookup(DataObject.class);
 
                 if (dataObject != null) {
                     FileObject fileObject = dataObject.getPrimaryFile();
@@ -65,21 +84,24 @@ public class ImportantFilesNodeFactory implements NodeFactory {
 
                     if (accept(file)) {
                         result.add(node);
-                      }
-                  }
-              }
+                    }
+                }
+            }
 
             return result.toArray(new Node[result.size()]);
         }
 
         private boolean accept(File file) {
             String name = file.getName();
-            if (".couchapprc".equals(name))
+            if (".couchapprc".equals(name)) {
                 return true;
-            if ("couchapp.json".equals(name))
+            }
+            if ("couchapp.json".equals(name)) {
                 return true;
-            if ("_id".equals(name))
+            }
+            if ("_id".equals(name)) {
                 return true;
+            }
 
             return false;
         }
