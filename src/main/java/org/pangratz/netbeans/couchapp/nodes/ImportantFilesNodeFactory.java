@@ -78,6 +78,8 @@ public class ImportantFilesNodeFactory implements NodeFactory {
                 return true;
             if ("couchapp.json".equals(name))
                 return true;
+            if ("_id".equals(name))
+                return true;
 
             return false;
         }
