@@ -13,14 +13,14 @@ import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
 import org.openide.util.Exceptions;
 
-@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 300)
-public class ViewsNodeFactory implements NodeFactory {
+@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 200)
+public class ShowsNodeFactory implements NodeFactory {
 
     @Override
     public NodeList<?> createNodes(Project proj) {
-        ViewsFilesNode nd = null;
+        ShowsFilesNode nd = null;
         try {
-            nd = new ViewsFilesNode(proj);
+            nd = new ShowsFilesNode(proj);
             return NodeFactorySupport.fixedNodeList(nd);
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
@@ -28,15 +28,15 @@ public class ViewsNodeFactory implements NodeFactory {
         return NodeFactorySupport.fixedNodeList();
     }
 
-    private class ViewsFilesNode extends FilterNode {
+    private class ShowsFilesNode extends FilterNode {
 
-        private ViewsFilesNode(Project proj) throws DataObjectNotFoundException {
-            super(DataObject.find(proj.getProjectDirectory().getFileObject("/views")).getNodeDelegate());
+        private ShowsFilesNode(Project proj) throws DataObjectNotFoundException {
+            super(DataObject.find(proj.getProjectDirectory().getFileObject("/shows")).getNodeDelegate());
         }
 
         @Override
         public String getDisplayName() {
-            return "Views";
+            return "Shows";
         }
     }
 }

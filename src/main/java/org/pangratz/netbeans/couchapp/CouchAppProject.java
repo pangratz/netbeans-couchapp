@@ -40,11 +40,11 @@ class CouchAppProject implements Project {
         return projectDir;
     }
 
-    FileObject getOrdersFolder(boolean create) {
-        FileObject result = projectDir.getFileObject(CouchAppProjectFactory.PROJECT_DIR);
+    FileObject getCouchappJson(boolean create) {
+        FileObject result = projectDir.getFileObject(CouchAppProjectFactory.COUCHAPP_JSON_FILE);
         if (result == null && create) {
             try {
-                result = projectDir.createFolder(CouchAppProjectFactory.PROJECT_DIR);
+                result = projectDir.createData("couchapp", "json");
             } catch (IOException ioe) {
                 Exceptions.printStackTrace(ioe);
             }
@@ -163,36 +163,6 @@ class CouchAppProject implements Project {
         //Let the filesystem determine the icon to be displayed:
         @Override
         public Icon getIcon() {
-            /*
-            //Get the "Customers" folder in the System FileSystem:
-            FileObject customerFolder = FileUtil.getConfigFile("Customers");
-            //Get all the customers within the "Customers" folder:
-            FileObject[] customers = customerFolder.getChildren();
-            for (FileObject oneCustomer : customers) {
-            //Get the customer that matches the name of the current project:
-            if (oneCustomer.getName().equals(getProject().getProjectDirectory().getName())) {
-            //Get the icon location attribute set on the folder identified above:
-            String iconAttribute = oneCustomer.getAttribute("icon").toString();
-            //Turn that icon location into a FileObject:
-            FileObject iconFo = FileUtil.toFileObject(new File(iconAttribute));
-            try {
-            //Get the FileObject of the
-            //                        FileObject newFo = FileUtil.getConfigFile("Customers/" +
-            //                                oneCustomer.getName() + "/" + iconFo.getNameExt());
-            //                        FileObject copiedFo = null;
-            //                        if (newFo == null) {
-            //                            copiedFo = FileUtil.copyFile(iconFo, oneCustomer, iconFo.getName());
-            //                        } else {
-            //                            copiedFo = FileUtil.getConfigFile("Customers/" + oneCustomer.getName() + "/" + iconFo.getNameExt());
-            //                        }
-            //                      URL imageURL = new URL("nbfs:/SystemFileSystem/" + copiedFo.getPath());
-            URL imageURL = new URL("file:" + iconFo.getPath());
-            return new ImageIcon(imageURL);
-            } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-            }
-            }
-            }*/
             return ImageUtilities.image2Icon(ImageUtilities.loadImage("/org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"));
         }
 

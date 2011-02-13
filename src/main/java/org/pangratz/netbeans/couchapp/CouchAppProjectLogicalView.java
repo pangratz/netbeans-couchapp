@@ -27,20 +27,7 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
     @Override
     public org.openide.nodes.Node createLogicalView() {
         try {
-            //Get the orders directory, creating if deleted
-            FileObject ordersFileObject = project.getOrdersFolder(true);
-
-            //Get the DataObject that represents it:
-            DataFolder ordersDataFolder =
-                    DataFolder.findFolder(ordersFileObject);
-
-            //Get its default node—we'll wrap our node around it to change the
-            //display name, icon, etc.
-            Node ordersNode = ordersDataFolder.getNodeDelegate();
-
-            //This FilterNode will be our project node
-            return new OrdersFilterNode(ordersNode, project);
-
+            return new CouchAppNode(project);
         } catch (DataObjectNotFoundException donfe) {
             Exceptions.printStackTrace(donfe);
             //Fallback—the directory couldn't be created -
@@ -51,11 +38,11 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
 
    
     /** This is the node you actually see in the project tab for the project */
-    private static final class OrdersFilterNode extends AbstractNode {
+    private static final class CouchAppNode extends AbstractNode {
 
         final CouchAppProject project;
 
-        public OrdersFilterNode(Node node, CouchAppProject project) throws DataObjectNotFoundException {
+        public CouchAppNode(CouchAppProject project) throws DataObjectNotFoundException {
 //            super(node, new FilterNode.Children(node),
 //                    //The projects system wants the project in the Node's lookup.
 //                    //NewAction and friends want the original Node's lookup.

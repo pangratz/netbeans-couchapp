@@ -11,13 +11,14 @@ import org.openide.util.lookup.ServiceProvider;
 public class CouchAppProjectFactory implements ProjectFactory {
 
     // public static final String COUCHAPP_RC_FILE = "couchapp.rc";
-    public static final String PROJECT_DIR = "app";
+    public static final String COUCHAPP_JSON_FILE = "couchapp.json";
+    // public static final String PROJECT_DIR = "app";
 
     //Specifies when a project is a project, i.e.,
     //if the project directory "Orders" is present:
     @Override
     public boolean isProject(FileObject projectDirectory) {
-        return projectDirectory.getFileObject(PROJECT_DIR) != null;
+        return projectDirectory.getFileObject(COUCHAPP_JSON_FILE) != null;
     }
 
     //Specifies when the project will be opened, i.e.,
@@ -30,13 +31,14 @@ public class CouchAppProjectFactory implements ProjectFactory {
     @Override
     public void saveProject(final Project project) throws IOException, ClassCastException {
         FileObject projectRoot = project.getProjectDirectory();
+        /*
         if (projectRoot.getFileObject(PROJECT_DIR) == null) {
             throw new IOException("Project dir " + projectRoot.getPath() +
                     " deleted," +
                     " cannot save project");
-        }
+        }*/
         //Force creation of the texts dir if it was deleted:
-        ((CouchAppProject) project).getOrdersFolder(true);
+        ((CouchAppProject) project).getCouchappJson(true);
     }
     
 }
