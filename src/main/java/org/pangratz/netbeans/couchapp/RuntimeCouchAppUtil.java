@@ -19,27 +19,21 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
 
     @Override
     public void generateCouchApp(File folder) throws IOException {
+        String couchappPyFile = getCouchappPyFile();
+        String cmd = String.format("python %s generate %s", couchappPyFile, folder.getPath());
+        executeCommand(cmd);
+    }
 
+    private String getCouchappPyFile() throws IOException {
         ClassLoader syscl = Thread.currentThread().getContextClassLoader();
         URL couchappZipURL = syscl.getResource("modules/couchapp.zip");
         System.out.println(couchappZipURL != null ? couchappZipURL.getPath() : "NO COUCHAPP.ZIP");
 
         String uuid = UUID.randomUUID().toString();
         File tmpDir = new File(System.getProperty("java.io.tmpdir"), uuid);
+
         unzipTo(couchappZipURL, tmpDir);
-
-
-        String couchappPyFile = tmpDir.getPath() + "/Couchapp.py";
-        String cmd = String.format("python %s generate %s", couchappPyFile, folder.getPath());
-        System.out.println(cmd);
-
-        Runtime runtime = Runtime.getRuntime();
-        Process exec = runtime.exec(cmd);
-        try {
-            exec.waitFor();
-        } catch (InterruptedException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+        return tmpDir.getPath() + "/Couchapp.py";
     }
 
     private void unzipTo(URL couchappZipURL, File tmpDir) throws IOException {
@@ -82,6 +76,23 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
             zis.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void generateView(File folder, String viewName) throws IOException {
+        String couchappPyFile = getCouchappPyFile();
+        String cmd = String.format("python %s generate view %s %s", couchappPyFile, folder.getPath(), viewName);
+        executeCommand(cmd);
+    }
+
+    private void executeCommand(String cmd) throws IOException {
+        Runtime runtime = Runtime.getRuntime();
+        Process exec = runtime.exec(cmd);
+        try {
+            exec.waitFor();
+        } catch (InterruptedException ex) {
+            Exceptions.printStackTrace(ex);
         }
     }
 }

@@ -12,4 +12,6 @@ public interface ICouchAppUtil {
 
     public void generateCouchApp(File folder) throws IOException;
 
+    public void generateView(File folder, String viewName) throws IOException;
+
 }
