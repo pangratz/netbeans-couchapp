@@ -7,11 +7,13 @@ package org.pangratz.netbeans.couchapp.wizard;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectManager;
@@ -21,6 +23,8 @@ import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.NbBundle;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
+import org.pangratz.netbeans.couchapp.RuntimeCouchAppUtil;
 
 public class CreateCouchAppWizardIterator implements WizardDescriptor.InstantiatingIterator {
 
@@ -49,14 +53,22 @@ public class CreateCouchAppWizardIterator implements WizardDescriptor.Instantiat
     public Set/*<FileObject>*/ instantiate() throws IOException {
         Set<FileObject> resultSet = new LinkedHashSet<FileObject>();
         File dirF = FileUtil.normalizeFile((File) wiz.getProperty("projdir"));
+
+        ICouchAppUtil couchAppUtil = new RuntimeCouchAppUtil();
+        couchAppUtil.generateCouchApp(dirF);
+        // runtime.exec(cmd);
+
+        /*
         dirF.mkdirs();
 
         // TODO generate couchapp with tool
         FileObject dir = FileUtil.toFileObject(dirF);
         FileObject appFolder = dir.createFolder("app");
         appFolder.createFolder("views");
+         */
 
         ProjectManager projectManager = ProjectManager.getDefault();
+        FileObject dir = FileUtil.toFileObject(dirF);
         Project proj = projectManager.findProject(dir);
         OpenProjects.getDefault().open(new Project[]{proj}, true);
 
