@@ -35,6 +35,12 @@ public class CouchAppUtilTest extends TestCase {
         assertTrue("myView/map.js does not exist", new File(tmpDir, "views/myView/map.js").exists());
     }
 
+    public void testPushApp() throws IOException {
+        File tmpDir = generateCouchApp();
+
+        couchAppUtil.pushCouchApp(tmpDir, "http://localhost:5984/testdb");
+    }
+
     private File generateCouchApp() throws IOException {
         String uuid = UUID.randomUUID().toString();
         File tmpDir = new File(System.getProperty("java.io.tmpdir"), uuid);

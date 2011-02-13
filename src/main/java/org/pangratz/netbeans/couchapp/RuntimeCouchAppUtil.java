@@ -9,10 +9,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.commons.io.IOUtils;
 import org.openide.util.Exceptions;
 
 public class RuntimeCouchAppUtil implements ICouchAppUtil {
@@ -27,7 +30,7 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
     private String getCouchappPyFile() throws IOException {
         ClassLoader syscl = Thread.currentThread().getContextClassLoader();
         URL couchappZipURL = syscl.getResource("modules/couchapp.zip");
-        System.out.println(couchappZipURL != null ? couchappZipURL.getPath() : "NO COUCHAPP.ZIP");
+        // System.out.println(couchappZipURL != null ? couchappZipURL.getPath() : "NO COUCHAPP.ZIP");
 
         String uuid = UUID.randomUUID().toString();
         File tmpDir = new File(System.getProperty("java.io.tmpdir"), uuid);
@@ -38,7 +41,7 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
 
     private void unzipTo(URL couchappZipURL, File tmpDir) throws IOException {
 
-        System.out.println("extracting to " + tmpDir);
+        // System.out.println("extracting to " + tmpDir);
 
         try {
             int BUFFER = 1024;
@@ -48,7 +51,7 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
             ZipEntry entry;
             // loop through zipped file entries
             while ((entry = zis.getNextEntry()) != null) {
-                System.out.println("Extracting: " + entry.getName() + " --> " + entry.isDirectory());
+                // System.out.println("Extracting: " + entry.getName() + " --> " + entry.isDirectory());
 
                 File newFile = new File(tmpDir, entry.getName());
                 if (entry.isDirectory()) {
@@ -75,7 +78,7 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
             }
             zis.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Exceptions.printStackTrace(e);
         }
     }
 
@@ -86,13 +89,26 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         executeCommand(cmd);
     }
 
-    private void executeCommand(String cmd) throws IOException {
+    private String executeCommand(String cmd) throws IOException {
         Runtime runtime = Runtime.getRuntime();
         Process exec = runtime.exec(cmd);
         try {
             exec.waitFor();
+            InputStream in = exec.getInputStream();
+            StringWriter sw = new StringWriter();
+            IOUtils.copy(exec.getErrorStream(), sw);
+            return sw.toString();
         } catch (InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
+        return "ERROR";
+    }
+
+    @Override
+    public void pushCouchApp(File folder, String destination) throws IOException {
+        String couchappPyFile = getCouchappPyFile();
+        String cmd = String.format("python %s push %s %s", couchappPyFile, folder.getPath(), destination);
+        String output = executeCommand(cmd);
+        System.out.println(output);
     }
 }
