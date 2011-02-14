@@ -17,7 +17,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.apache.commons.io.IOUtils;
 import org.openide.util.Exceptions;
+import org.openide.util.lookup.ServiceProvider;
 
+@ServiceProvider(service = ICouchAppUtil.class)
 public class RuntimeCouchAppUtil implements ICouchAppUtil {
 
     @Override

@@ -21,6 +21,7 @@ import org.openide.cookies.OpenCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 import org.pangratz.netbeans.couchapp.RuntimeCouchAppUtil;
@@ -53,7 +54,7 @@ public class CreateCouchAppWizardIterator implements WizardDescriptor.Instantiat
         Set<FileObject> resultSet = new LinkedHashSet<FileObject>();
         File dirF = FileUtil.normalizeFile((File) wiz.getProperty("projdir"));
 
-        ICouchAppUtil couchAppUtil = new RuntimeCouchAppUtil();
+        ICouchAppUtil couchAppUtil = Lookup.getDefault().lookup(ICouchAppUtil.class);
         couchAppUtil.generateCouchApp(dirF);
         // runtime.exec(cmd);
 
