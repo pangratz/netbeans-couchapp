@@ -19,6 +19,14 @@ public class CouchAppUtilTest extends TestCase {
         this.couchAppUtil = new RuntimeCouchAppUtil();
     }
 
+    public void testGenerateFilter() throws IOException {
+        File tmpDir = generateCouchApp();
+
+        couchAppUtil.generateFilter(tmpDir, "myFilter");
+
+        assertTrue("filters/myFilter.js does not exist", new File(tmpDir, "filters/myFilter.js").exists());
+    }
+
     public void testGenerateList() throws IOException {
         File tmpDir = generateCouchApp();
 
