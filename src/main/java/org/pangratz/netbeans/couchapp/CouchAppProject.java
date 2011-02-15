@@ -24,7 +24,6 @@ import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
-import projectcontextmenudemo.DemoAction;
 
 class CouchAppProject implements Project {
 
