@@ -105,6 +105,7 @@
                 <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>modules/couchapp/</exclude>
+					<exclude>**/*.zip</exclude>
                 </excludes>
                 <includes>
                     <include>**/*.*</include>
@@ -112,6 +113,24 @@
             </resource>
         </resources>
         <plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-antrun-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <phase>generate-resources</phase>
+			            <goals>
+			                <goal>run</goal>
+			            </goals>
+			            <configuration>
+			                <tasks>
+								<mkdir dir="target/classes/modules" />
+								<zip basedir="src/main/resources/modules/couchapp/" destfile="target/classes/modules/couchapp.zip" />
+			                </tasks>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
