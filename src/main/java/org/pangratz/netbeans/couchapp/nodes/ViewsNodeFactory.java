@@ -11,7 +11,10 @@ import org.netbeans.spi.project.ui.support.NodeList;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
+import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.Lookups;
 
 @NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 300)
 public class ViewsNodeFactory implements NodeFactory {
@@ -20,7 +23,8 @@ public class ViewsNodeFactory implements NodeFactory {
     public NodeList<?> createNodes(Project proj) {
         ViewsFilesNode nd = null;
         try {
-            nd = new ViewsFilesNode(proj);
+            Node original = DataObject.find(proj.getProjectDirectory().getFileObject("/views")).getNodeDelegate();
+            nd = new ViewsFilesNode(original, Lookups.singleton(proj));
             return NodeFactorySupport.fixedNodeList(nd);
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
@@ -30,8 +34,8 @@ public class ViewsNodeFactory implements NodeFactory {
 
     private class ViewsFilesNode extends FilterNode {
 
-        private ViewsFilesNode(Project proj) throws DataObjectNotFoundException {
-            super(DataObject.find(proj.getProjectDirectory().getFileObject("/views")).getNodeDelegate());
+        private ViewsFilesNode(Node original, Lookup lkp) throws DataObjectNotFoundException {
+            super(original, new ProxyChildren(original), lkp);
         }
 
         @Override

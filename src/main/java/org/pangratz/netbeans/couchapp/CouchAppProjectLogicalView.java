@@ -49,6 +49,7 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
 //                    }));
             super(NodeFactorySupport.createCompositeChildren(project, "Projects/org-pangratz-netbeans-couchapp-CouchAppProject/Nodes"),
                     Lookups.fixed(new Object[]{project}));
+
             this.project = project;
         }
 

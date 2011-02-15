@@ -11,7 +11,10 @@ import org.netbeans.spi.project.ui.support.NodeList;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
+import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.Lookups;
 
 @NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 200)
 public class ShowsNodeFactory implements NodeFactory {
@@ -20,7 +23,8 @@ public class ShowsNodeFactory implements NodeFactory {
     public NodeList<?> createNodes(Project proj) {
         ShowsFilesNode nd = null;
         try {
-            nd = new ShowsFilesNode(proj);
+            Node original = DataObject.find(proj.getProjectDirectory().getFileObject("/shows")).getNodeDelegate();
+            nd = new ShowsFilesNode(original, Lookups.singleton(proj));
             return NodeFactorySupport.fixedNodeList(nd);
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
@@ -30,8 +34,8 @@ public class ShowsNodeFactory implements NodeFactory {
 
     private class ShowsFilesNode extends FilterNode {
 
-        private ShowsFilesNode(Project proj) throws DataObjectNotFoundException {
-            super(DataObject.find(proj.getProjectDirectory().getFileObject("/shows")).getNodeDelegate());
+        private ShowsFilesNode(Node original, Lookup lkp) throws DataObjectNotFoundException {
+            super(original, new ProxyChildren(original), lkp);
         }
 
         @Override
