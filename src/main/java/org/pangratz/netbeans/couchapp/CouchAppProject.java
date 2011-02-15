@@ -15,12 +15,16 @@ import org.netbeans.spi.project.DeleteOperationImplementation;
 import org.netbeans.spi.project.CopyOperationImplementation;
 import org.netbeans.spi.project.ProjectState;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
+import org.netbeans.spi.project.ui.ProjectOpenedHook;
 import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
+import projectcontextmenudemo.DemoAction;
 
 class CouchAppProject implements Project {
 
@@ -63,16 +67,36 @@ class CouchAppProject implements Project {
                         new DemoCopyOperation(this),
                         new Info(), //Project information implementation
                         logicalView, //Logical view of project implementation
+                        new CouchAppLookupItem(),
+                        new CouchAppProjectOpenedHook(),
+                        // new PushCouchAppAction()
                     });
         }
         return lkp;
     }
 
+    private final class CouchAppProjectOpenedHook extends ProjectOpenedHook {
+
+        @Override
+        protected void projectOpened() {
+            NotifyDescriptor nd = new NotifyDescriptor.Message("Project opened");
+            // DialogDisplayer.getDefault().notify(nd);
+        }
+
+        @Override
+        protected void projectClosed() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
     private final class ActionProviderImpl implements ActionProvider {
 
+        public static final String PUSH_COUCHAPP_ACTION = "PUSH_COUCHAPP_ACTION";
         private String[] supported = new String[]{
             ActionProvider.COMMAND_DELETE,
-            ActionProvider.COMMAND_COPY,};
+            ActionProvider.COMMAND_COPY,
+            ActionProviderImpl.PUSH_COUCHAPP_ACTION
+        };
 
         @Override
         public String[] getSupportedActions() {
@@ -87,6 +111,10 @@ class CouchAppProject implements Project {
             if (string.equalsIgnoreCase(ActionProvider.COMMAND_COPY)) {
                 DefaultProjectOperations.performDefaultCopyOperation(CouchAppProject.this);
             }
+            if (PUSH_COUCHAPP_ACTION.equalsIgnoreCase(string)) {
+                NotifyDescriptor nd = new NotifyDescriptor.Message("Push Couchapp");
+                DialogDisplayer.getDefault().notify(nd);
+            }
         }
 
         @Override
@@ -94,6 +122,8 @@ class CouchAppProject implements Project {
             if ((command.equals(ActionProvider.COMMAND_DELETE))) {
                 return true;
             } else if ((command.equals(ActionProvider.COMMAND_COPY))) {
+                return true;
+            } else if (command.equals(PUSH_COUCHAPP_ACTION)) {
                 return true;
             } else {
                 throw new IllegalArgumentException(command);
