@@ -19,6 +19,14 @@ public class CouchAppUtilTest extends TestCase {
         this.couchAppUtil = new RuntimeCouchAppUtil();
     }
 
+    public void testGenerateShow() throws IOException {
+        File tmpDir = generateCouchApp();
+
+        couchAppUtil.generateShow(tmpDir, "my-cool-show-name");
+
+        assertTrue("shows/my-cool-show-name.js does not exist", new File(tmpDir, "shows/my-cool-show-name.js").exists());
+    }
+
     public void testCreateCouchApp() throws IOException {
         File tmpDir = generateCouchApp();
 

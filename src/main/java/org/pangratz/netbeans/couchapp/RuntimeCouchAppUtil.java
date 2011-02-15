@@ -113,4 +113,11 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         String output = executeCommand(cmd);
         System.out.println(output);
     }
+
+    @Override
+    public void generateShow(File folder, String showName) throws IOException {
+        String couchappPyFile = getCouchappPyFile();
+        String cmd = String.format("python %s generate show %s %s", couchappPyFile, folder.getPath(), showName);
+        executeCommand(cmd);
+    }
 }
