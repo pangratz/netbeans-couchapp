@@ -16,11 +16,12 @@ import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.loaders.DataObject;
 import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.nodes.AbstractNode;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.Lookups;
 
 @NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 100)
 public class ImportantFilesNodeFactory implements NodeFactory {
@@ -29,7 +30,7 @@ public class ImportantFilesNodeFactory implements NodeFactory {
     public NodeList<?> createNodes(Project prjct) {
         try {
             Node nodes = DataObject.find(prjct.getProjectDirectory().getFileObject("/")).getNodeDelegate();
-            ImportantFilesNode nd = new ImportantFilesNode(nodes);
+            ImportantFilesNode nd = new ImportantFilesNode(nodes, Lookups.singleton(prjct));
             return NodeFactorySupport.fixedNodeList(nd);
         } catch (DataObjectNotFoundException ex) {
             Exceptions.printStackTrace(ex);
@@ -41,8 +42,8 @@ public class ImportantFilesNodeFactory implements NodeFactory {
 
         private final Image icon;
 
-        private ImportantFilesNode(Node original) throws DataObjectNotFoundException {
-            super(original, new ProxyChildren(original));
+        private ImportantFilesNode(Node original, Lookup lkp) throws DataObjectNotFoundException {
+            super(original, new ProxyChildren(original), lkp);
 
             Image configBadgeIcon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/config-badge.gif");
             Image couchdDbIcon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png");

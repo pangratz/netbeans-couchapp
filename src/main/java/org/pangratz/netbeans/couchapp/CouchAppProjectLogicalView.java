@@ -6,8 +6,6 @@ import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
 import org.netbeans.spi.project.ui.support.CommonProjectActions;
 import org.netbeans.spi.project.ui.support.NodeFactorySupport;
-import org.openide.filesystems.FileObject;
-import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.Children;
@@ -36,7 +34,6 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
         }
     }
 
-   
     /** This is the node you actually see in the project tab for the project */
     private static final class CouchAppNode extends AbstractNode {
 
@@ -75,14 +72,13 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
         //Set the icon based on the ProjectInformation impl:
         @Override
         public Image getOpenedIcon(int type) {
-            return ImageUtilities.icon2Image(ProjectUtils.getInformation(project).getIcon());
+            return getIcon(type);
         }
 
         @Override
         public String getDisplayName() {
             return project.getProjectDirectory().getName();
         }
-        
     }
 
     @Override
@@ -90,5 +86,4 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
         //leave unimplemented for now
         return null;
     }
-
 }

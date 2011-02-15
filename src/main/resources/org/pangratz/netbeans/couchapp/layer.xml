@@ -4,12 +4,11 @@
     <folder name="Actions">
         <folder name="File">
             <file name="org-pangratz-netbeans-couchapp-PushCouchAppAction.instance">
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
+                <attr name="instanceCreate" methodvalue="org.pangratz.netbeans.couchapp.PushCouchAppAction"/>
                 <attr name="type" stringvalue="org.openide.nodes.Node"/> <!-- org.netbeans.api.project.Project -->
                 <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
-                <attr name="delegate" newvalue="org.pangratz.netbeans.couchapp.PushCouchAppAction"/>
                 <attr name="displayName" bundlevalue="org.pangratz.netbeans.couchapp.Bundle#CTL_PushCouchAppAction"/>
-                <attr name="iconBase" stringvalue="org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"/>
+                <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"/>
                 <attr name="noIconInMenu" boolvalue="false"/>                
             </file>
         </folder>
@@ -18,7 +17,10 @@
         <folder name="Build">
             <file name="org-pangratz-netbeans-couchapp-PushCouchAppAction.shadow">
                 <attr name="originalFile" stringvalue="Actions/File/org-pangratz-netbeans-couchapp-PushCouchAppAction.instance"/>
-                <attr name="position" intvalue="100"/>
+                <attr name="position" intvalue="20"/>
+                <!--
+                <attr name="iconBase" stringvalue="org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"/>
+                -->
             </file>
         </folder>
     </folder>

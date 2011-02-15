@@ -68,7 +68,7 @@ class CouchAppProject implements Project {
                         new Info(), //Project information implementation
                         logicalView, //Logical view of project implementation
                         new CouchAppLookupItem(),
-                        new CouchAppProjectOpenedHook(),
+                        // new CouchAppProjectOpenedHook(),
                         // new PushCouchAppAction()
                     });
         }

@@ -4,59 +4,82 @@
  */
 package org.pangratz.netbeans.couchapp;
 
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import org.netbeans.api.project.Project;
-import org.openide.DialogDisplayer;
-import org.openide.NotifyDescriptor;
-import org.openide.NotifyDescriptor.Message;
-import org.openide.util.ContextAwareAction;
+import java.awt.Component;
+import java.awt.Image;
+import java.util.Arrays;
+import org.openide.nodes.Node;
+import org.openide.util.HelpCtx;
+import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import org.openide.util.Utilities;
+import org.openide.util.actions.NodeAction;
 
-public final class PushCouchAppAction extends AbstractAction implements ContextAwareAction {
+public final class PushCouchAppAction extends NodeAction {
 
-    private static class ContextAwarePushCouchAppAction extends AbstractAction {
-
-        private final Lookup actionContext;
-
-        public ContextAwarePushCouchAppAction(Lookup actionContext) {
-            this.actionContext = actionContext;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            Message message = new NotifyDescriptor.Message("Perform pushing ContextAwarePushCouchAppAction");
-            DialogDisplayer.getDefault().notify(message);
-        }
-
-        @Override
-        public boolean isEnabled() {
-            Project project = actionContext.lookup(Project.class);
-            String msg = "ContextAwarePushCouchAppAction#isEnabled";
-            if (project != null) {
-                msg += " with project: " + project.getClass();
-            }
-            Message message = new NotifyDescriptor.Message(msg);
-            DialogDisplayer.getDefault().notify(message);
-            return super.isEnabled();
-        }
-    }
+    private final Lookup actionContext;
 
     public PushCouchAppAction() {
-        super();
-
-        putValue(NAME, "Push CouchApp Action");
+        this(Utilities.actionsGlobalContext());
     }
 
-    public void actionPerformed(ActionEvent e) {
-        Message message = new NotifyDescriptor.Message("Perform pushing");
-        DialogDisplayer.getDefault().notify(message);
+    private PushCouchAppAction(Lookup actionContext) {
+        super();
+
+        // set name and icon
+        putValue(NAME, "Push CouchApp");
+        Image icon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png");
+        setIcon(ImageUtilities.image2Icon(icon));
+
+        this.actionContext = actionContext;
     }
 
     @Override
-    public Action createContextAwareInstance(Lookup actionContext) {
-        System.out.println("#createContextAwareInstance");
-        return new ContextAwarePushCouchAppAction(actionContext);
+    protected void performAction(Node[] nodes) {
+
+        if (nodes == null || nodes.length != 1) {
+            return;
+        }
+
+        // get the project
+        Node node = nodes[0];
+        CouchAppProject project = node.getLookup().lookup(CouchAppProject.class);
+        if (project != null) {
+            return;
+        }
+        // get the ICouchAppUtil
+        ICouchAppUtil couchappUtil = actionContext.lookup(ICouchAppUtil.class);
+
+        // TODO create dialog and ask for location where the couch app shall be pushed ...
+    }
+
+    @Override
+    protected boolean enable(Node[] nodes) {
+        // check if a single CouchAppProject is selected
+        if (nodes == null || nodes.length != 1) {
+            return false;
+        }
+
+        Node node = nodes[0];
+        CouchAppProject project = node.getLookup().lookup(CouchAppProject.class);
+        if (project != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    protected boolean asynchronous() {
+        return false;
+    }
+
+    @Override
+    public HelpCtx getHelpCtx() {
+        return HelpCtx.DEFAULT_HELP;
+    }
+
+    @Override
+    public String getName() {
+        return (String) getValue(NAME);
     }
 }
