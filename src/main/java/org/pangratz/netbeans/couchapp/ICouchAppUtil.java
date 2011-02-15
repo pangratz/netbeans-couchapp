@@ -16,6 +16,8 @@ public interface ICouchAppUtil {
 
     public void generateShow(File folder, String showName) throws IOException;
 
+    public void generateList(File folder, String listName) throws IOException;
+
     public void pushCouchApp(File folder, String destination) throws IOException;
 
 }

@@ -120,4 +120,11 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         String cmd = String.format("python %s generate show %s %s", couchappPyFile, folder.getPath(), showName);
         executeCommand(cmd);
     }
+
+    @Override
+    public void generateList(File folder, String listName) throws IOException {
+        String couchappPyFile = getCouchappPyFile();
+        String cmd = String.format("python %s generate list %s %s", couchappPyFile, folder.getPath(), listName);
+        executeCommand(cmd);
+    }
 }
