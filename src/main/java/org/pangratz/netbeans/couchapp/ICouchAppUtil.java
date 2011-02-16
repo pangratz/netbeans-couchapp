@@ -20,6 +20,8 @@ public interface ICouchAppUtil {
 
     public void generateList(File folder, String listName) throws IOException;
 
+    public void generateUpdate(File folder, String updateFunctionName) throws IOException;
+
     public void generateFilter(File folder, String filterName) throws IOException;
 
     /**

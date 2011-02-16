@@ -18,6 +18,7 @@ import org.openide.util.lookup.Lookups;
 import org.pangratz.netbeans.couchapp.actions.GenerateFilterAction;
 import org.pangratz.netbeans.couchapp.actions.GenerateListAction;
 import org.pangratz.netbeans.couchapp.actions.GenerateShowAction;
+import org.pangratz.netbeans.couchapp.actions.GenerateUpdateAction;
 import org.pangratz.netbeans.couchapp.actions.GenerateViewAction;
 import org.pangratz.netbeans.couchapp.actions.PushCouchAppAction;
 
@@ -73,6 +74,7 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
             nodeActions.add(new GenerateViewAction(project));
             nodeActions.add(new GenerateListAction(project));
             nodeActions.add(new GenerateFilterAction(project));
+            nodeActions.add(new GenerateUpdateAction(project));
             nodeActions.add(null);
             nodeActions.add(CommonProjectActions.setAsMainProjectAction());
             nodeActions.add(CommonProjectActions.closeProjectAction());

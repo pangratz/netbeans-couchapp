@@ -73,6 +73,14 @@ public class CouchAppUtilTest extends TestCase {
         assertEquals(expected, url);
     }
 
+    public void testeGenerateUpdate() throws IOException {
+        File tmpDir = generateCouchApp();
+
+        couchAppUtil.generateUpdate(tmpDir, "myUpdate");
+
+        assertTrue("updates/myUpdate.js does not exist", new File(tmpDir, "updates/myUpdate.js").exists());
+    }
+
     public void testGetCouchDbServers() throws IOException {
         File tmpDir = generateCouchApp();
 

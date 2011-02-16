@@ -170,4 +170,11 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         }
         return couchDbServers;
     }
+
+    @Override
+    public void generateUpdate(File folder, String updateFunctionName) throws IOException {
+        String couchappPyFile = getCouchappPyFile();
+        String cmd = String.format("python %s generate update %s %s", couchappPyFile, folder.getPath(), updateFunctionName);
+        executeCommand(cmd);
+    }
 }
