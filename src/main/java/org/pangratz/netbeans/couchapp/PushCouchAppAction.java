@@ -4,9 +4,7 @@
  */
 package org.pangratz.netbeans.couchapp;
 
-import java.awt.Component;
 import java.awt.Image;
-import java.util.Arrays;
 import org.openide.nodes.Node;
 import org.openide.util.HelpCtx;
 import org.openide.util.ImageUtilities;
