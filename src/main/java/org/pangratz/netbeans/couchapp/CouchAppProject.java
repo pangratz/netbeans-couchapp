@@ -20,6 +20,7 @@ import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
@@ -41,6 +42,11 @@ public class CouchAppProject implements Project {
     @Override
     public FileObject getProjectDirectory() {
         return projectDir;
+    }
+
+    public File getCouchAppDirectory() {
+        FileObject fileObj = getProjectDirectory();
+        return FileUtil.toFile(fileObj);
     }
 
     FileObject getCouchappJson(boolean create) {
@@ -66,9 +72,8 @@ public class CouchAppProject implements Project {
                         new DemoCopyOperation(this),
                         new Info(), //Project information implementation
                         logicalView, //Logical view of project implementation
-                        new CouchAppLookupItem(),
-                        // new CouchAppProjectOpenedHook(),
-                        // new PushCouchAppAction()
+                        new CouchAppLookupItem(), // new CouchAppProjectOpenedHook(),
+                    // new PushCouchAppAction()
                     });
         }
         return lkp;

@@ -13,6 +13,8 @@ import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.Lookups;
+import org.pangratz.netbeans.couchapp.actions.GenerateViewAction;
+import org.pangratz.netbeans.couchapp.actions.PushCouchAppAction;
 
 class CouchAppProjectLogicalView implements LogicalViewProvider {
 
@@ -55,12 +57,14 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
 
         @Override
         public Action[] getActions(boolean arg0) {
-            Action[] nodeActions = new Action[7];
+            Action[] nodeActions = new Action[9];
             nodeActions[0] = CommonProjectActions.newFileAction();
             nodeActions[1] = CommonProjectActions.copyProjectAction();
             nodeActions[2] = CommonProjectActions.deleteProjectAction();
-            nodeActions[5] = CommonProjectActions.setAsMainProjectAction();
-            nodeActions[6] = CommonProjectActions.closeProjectAction();
+            nodeActions[4] = new GenerateViewAction(project);
+            nodeActions[5] = new PushCouchAppAction(project);
+            nodeActions[7] = CommonProjectActions.setAsMainProjectAction();
+            nodeActions[8] = CommonProjectActions.closeProjectAction();
             return nodeActions;
         }
 
