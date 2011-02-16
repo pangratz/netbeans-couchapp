@@ -8,14 +8,20 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.openide.util.Exceptions;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -133,5 +139,32 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         String couchappPyFile = getCouchappPyFile();
         String cmd = String.format("python %s generate filter %s %s", couchappPyFile, folder.getPath(), filterName);
         executeCommand(cmd);
+    }
+
+    @Override
+    public List<CouchDbServer> getCouchDbServers(File folder) throws IOException {
+        // get the JSON file
+        File couchappRc = new File(folder, COUCHAPPRC);
+
+        if (!couchappRc.exists()) {
+            throw new IllegalStateException(COUCHAPPRC + " file does not exist in folder " + folder);
+        }
+
+        String tanga = IOUtils.toString(new FileReader(couchappRc));
+
+        Object obj = JSONValue.parse(tanga);
+        JSONObject json = (JSONObject) obj;
+        JSONObject env = (JSONObject) json.get("env");
+
+        List<CouchDbServer> couchDbServers = new LinkedList<CouchDbServer>();
+        for (Object object : env.keySet()) {
+            String name = object.toString();
+            
+            JSONObject severObj = (JSONObject) env.get(name);
+            String server = severObj.get("db").toString();
+            
+            couchDbServers.add(new CouchDbServer(name, server));
+        }
+        return couchDbServers;
     }
 }

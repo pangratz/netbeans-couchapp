@@ -5,9 +5,14 @@
 package org.pangratz.netbeans.couchapp;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 import junit.framework.TestCase;
+import org.apache.commons.io.IOUtils;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil.CouchDbServer;
 
 public class CouchAppUtilTest extends TestCase {
 
@@ -63,6 +68,28 @@ public class CouchAppUtilTest extends TestCase {
         File tmpDir = generateCouchApp();
 
         couchAppUtil.pushCouchApp(tmpDir, "http://localhost:5984/testdb");
+    }
+
+    public void testGetCouchDbServers() throws IOException {
+        File tmpDir = generateCouchApp();
+
+        // create sample .couchapprc file in the created couchapp folder
+        File couchapprc = new File(tmpDir, ICouchAppUtil.COUCHAPPRC);
+        InputStream inAnd = CouchAppUtilTest.class.getResourceAsStream("sample_couchapprc.json");
+        FileOutputStream OutBurger = new FileOutputStream(couchapprc);
+        IOUtils.copy(inAnd, OutBurger);
+
+        List<CouchDbServer> couchDbServers = couchAppUtil.getCouchDbServers(tmpDir);
+        assertNotNull("no list of CouchDbServers", couchDbServers);
+        assertEquals("expected 2 entries", 2, couchDbServers.size());
+
+        CouchDbServer first = couchDbServers.get(0);
+        assertEquals("expected default as name of first server", "default", first.getName());
+        assertEquals("expected different URL of first server", "http://localhost:5984/mydb", first.getServer());
+
+        CouchDbServer second = couchDbServers.get(1);
+        assertEquals("expected prod as name of second server", "prod", second.getName());
+        assertEquals("expected different URL of second server", "http://localhost:5984/mydb_prod", second.getServer());
     }
 
     private File generateCouchApp() throws IOException {

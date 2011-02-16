@@ -2,13 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.pangratz.netbeans.couchapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public interface ICouchAppUtil {
+
+    public static final String COUCHAPPRC = ".couchapprc";
 
     public void generateCouchApp(File folder) throws IOException;
 
@@ -22,4 +24,23 @@ public interface ICouchAppUtil {
 
     public void pushCouchApp(File folder, String destination) throws IOException;
 
+    public List<CouchDbServer> getCouchDbServers(File folder) throws IOException;
+
+    public static final class CouchDbServer {
+
+        private final String name, server;
+
+        public CouchDbServer(String name, String server) {
+            this.name = name;
+            this.server = server;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getServer() {
+            return server;
+        }
+    }
 }
