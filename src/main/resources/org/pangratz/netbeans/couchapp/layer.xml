@@ -27,7 +27,7 @@
     <folder name="Templates">
         <folder name="Project">
             <folder name="CouchApp">
-                <file name="CouchAppProject.zip" url="CouchAppProject.zip">
+                <file name="CouchApp">
                     <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"/>
                     <attr name="displayName" bundlevalue="org.pangratz.netbeans.couchapp.Bundle#CouchApp"/>
                     <attr name="instantiatingIterator" methodvalue="org.pangratz.netbeans.couchapp.wizard.CreateCouchAppWizardIterator.createIterator"/>
