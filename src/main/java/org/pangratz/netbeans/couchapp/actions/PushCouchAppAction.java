@@ -5,7 +5,9 @@
 package org.pangratz.netbeans.couchapp.actions;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.Exceptions;
 import org.pangratz.netbeans.couchapp.CouchAppProject;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil.CouchDbServer;
@@ -48,7 +50,10 @@ public class PushCouchAppAction extends AbstractGenerateAction {
     @Override
     protected boolean generate(Object chosenDbName) {
         try {
-            couchappUtil.pushCouchApp(couchAppDirectory, (String) chosenDbName);
+            String url = couchappUtil.pushCouchApp(couchAppDirectory, (String) chosenDbName);
+
+            // show the pushed couchapp
+            URLDisplayer.getDefault().showURLExternal(new URL(url));
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
