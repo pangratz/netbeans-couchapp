@@ -197,7 +197,7 @@ public class CouchAppProject implements Project {
         //Let the filesystem determine the icon to be displayed:
         @Override
         public Icon getIcon() {
-            return ImageUtilities.image2Icon(ImageUtilities.loadImage("/org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"));
+            return ImageUtilities.image2Icon(ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"));
         }
 
         @Override
