@@ -66,8 +66,11 @@ public class CouchAppUtilTest extends TestCase {
 
     public void testPushApp() throws IOException {
         File tmpDir = generateCouchApp();
+        String url = couchAppUtil.pushCouchApp(tmpDir, "http://localhost:5984/testdb");
 
-        couchAppUtil.pushCouchApp(tmpDir, "http://localhost:5984/testdb");
+        String expected = "http://localhost:5984/testdb/_design/" + tmpDir.getName() + "/index.html";
+
+        assertEquals(expected, url);
     }
 
     public void testGetCouchDbServers() throws IOException {

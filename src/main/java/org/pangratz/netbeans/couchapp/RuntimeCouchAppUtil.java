@@ -113,11 +113,15 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
     }
 
     @Override
-    public void pushCouchApp(File folder, String destination) throws IOException {
+    public String pushCouchApp(File folder, String destination) throws IOException {
         String couchappPyFile = getCouchappPyFile();
         String cmd = String.format("python %s push %s %s", couchappPyFile, folder.getPath(), destination);
         String output = executeCommand(cmd);
-        System.out.println(output);
+
+        // output should match string "XXX http://PATH.TO/COUCHAPP"
+        int httpIndex = output.indexOf("http://");
+        String url = output.substring(httpIndex);
+        return url.trim();
     }
 
     @Override
@@ -159,10 +163,10 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         List<CouchDbServer> couchDbServers = new LinkedList<CouchDbServer>();
         for (Object object : env.keySet()) {
             String name = object.toString();
-            
+
             JSONObject severObj = (JSONObject) env.get(name);
             String server = severObj.get("db").toString();
-            
+
             couchDbServers.add(new CouchDbServer(name, server));
         }
         return couchDbServers;

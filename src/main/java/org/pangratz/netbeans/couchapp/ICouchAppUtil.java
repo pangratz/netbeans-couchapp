@@ -22,7 +22,11 @@ public interface ICouchAppUtil {
 
     public void generateFilter(File folder, String filterName) throws IOException;
 
-    public void pushCouchApp(File folder, String destination) throws IOException;
+    /**
+     * Push given CouchApp in folder to destination.
+     * @return URL to pushed CouchApp
+     */
+    public String pushCouchApp(File folder, String destination) throws IOException;
 
     public List<CouchDbServer> getCouchDbServers(File folder) throws IOException;
 
