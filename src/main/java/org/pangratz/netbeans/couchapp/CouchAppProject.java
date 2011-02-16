@@ -25,7 +25,7 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
 
-class CouchAppProject implements Project {
+public class CouchAppProject implements Project {
 
     private FileObject projectDir;
     LogicalViewProvider logicalView = new CouchAppProjectLogicalView(this);
