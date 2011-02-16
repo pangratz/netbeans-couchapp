@@ -8,28 +8,27 @@ import java.io.IOException;
 import org.openide.util.Exceptions;
 import org.pangratz.netbeans.couchapp.CouchAppProject;
 
-public class GenerateViewAction extends AbstractGenerateAction {
+public class GenerateListAction extends AbstractGenerateAction {
 
-    public GenerateViewAction(CouchAppProject cap) {
+    public GenerateListAction(CouchAppProject cap) {
         super(cap);
 
-        putValue(NAME, "Generate View ...");
+        putValue(NAME, "Generate List ...");
     }
 
     @Override
     protected String getMessage() {
-        return "Enter name of view";
+        return "Enter name of list";
     }
 
     @Override
-    protected boolean generate(Object viewName) {
+    protected boolean generate(Object listName) {
         try {
-            couchappUtil.generateView(couchAppDirectory, (String) viewName);
+            couchappUtil.generateList(couchAppDirectory, (String) listName);
             return true;
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-
         return false;
     }
 }

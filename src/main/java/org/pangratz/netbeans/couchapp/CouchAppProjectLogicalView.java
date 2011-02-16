@@ -1,6 +1,8 @@
 package org.pangratz.netbeans.couchapp;
 
 import java.awt.Image;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.Action;
 import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
@@ -13,6 +15,9 @@ import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.lookup.Lookups;
+import org.pangratz.netbeans.couchapp.actions.GenerateFilterAction;
+import org.pangratz.netbeans.couchapp.actions.GenerateListAction;
+import org.pangratz.netbeans.couchapp.actions.GenerateShowAction;
 import org.pangratz.netbeans.couchapp.actions.GenerateViewAction;
 import org.pangratz.netbeans.couchapp.actions.PushCouchAppAction;
 
@@ -57,15 +62,21 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
 
         @Override
         public Action[] getActions(boolean arg0) {
-            Action[] nodeActions = new Action[9];
-            nodeActions[0] = CommonProjectActions.newFileAction();
-            nodeActions[1] = CommonProjectActions.copyProjectAction();
-            nodeActions[2] = CommonProjectActions.deleteProjectAction();
-            nodeActions[4] = new GenerateViewAction(project);
-            nodeActions[5] = new PushCouchAppAction(project);
-            nodeActions[7] = CommonProjectActions.setAsMainProjectAction();
-            nodeActions[8] = CommonProjectActions.closeProjectAction();
-            return nodeActions;
+            List<Action> nodeActions = new LinkedList<Action>();
+            nodeActions.add(CommonProjectActions.newFileAction());
+            nodeActions.add(null);
+            nodeActions.add(CommonProjectActions.copyProjectAction());
+            nodeActions.add(CommonProjectActions.deleteProjectAction());
+            nodeActions.add(null);
+            nodeActions.add(new PushCouchAppAction(project));
+            nodeActions.add(new GenerateShowAction(project));
+            nodeActions.add(new GenerateViewAction(project));
+            nodeActions.add(new GenerateListAction(project));
+            nodeActions.add(new GenerateFilterAction(project));
+            nodeActions.add(null);
+            nodeActions.add(CommonProjectActions.setAsMainProjectAction());
+            nodeActions.add(CommonProjectActions.closeProjectAction());
+            return nodeActions.toArray(new Action[]{});
         }
 
         //Set the icon based on the ProjectInformation impl:

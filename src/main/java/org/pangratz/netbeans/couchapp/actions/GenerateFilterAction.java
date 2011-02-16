@@ -8,28 +8,27 @@ import java.io.IOException;
 import org.openide.util.Exceptions;
 import org.pangratz.netbeans.couchapp.CouchAppProject;
 
-public class GenerateViewAction extends AbstractGenerateAction {
+public class GenerateFilterAction extends AbstractGenerateAction {
 
-    public GenerateViewAction(CouchAppProject cap) {
+    public GenerateFilterAction(CouchAppProject cap) {
         super(cap);
 
-        putValue(NAME, "Generate View ...");
+        putValue(NAME, "Generate Filter ...");
     }
 
     @Override
     protected String getMessage() {
-        return "Enter name of view";
+        return "Enter name of filter";
     }
 
     @Override
-    protected boolean generate(Object viewName) {
+    protected boolean generate(Object filterName) {
         try {
-            couchappUtil.generateView(couchAppDirectory, (String) viewName);
+            couchappUtil.generateFilter(couchAppDirectory, (String) filterName);
             return true;
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-
         return false;
     }
 }
