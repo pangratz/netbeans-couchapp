@@ -6,12 +6,18 @@ package org.pangratz.netbeans.couchapp.actions;
 
 import java.awt.event.ActionEvent;
 import org.openide.filesystems.FileUtil;
-import org.pangratz.netbeans.couchapp.CouchAppProject;
+import org.openide.util.Lookup;
 
 public abstract class AbstractGenerateAction extends AbstractCouchAppAction {
 
-    public AbstractGenerateAction(CouchAppProject cap) {
-        super(cap);
+    public AbstractGenerateAction(Lookup context) {
+        super(context);
+
+        putValue(NAME, getName());
+    }
+
+    public AbstractGenerateAction() {
+        super();
     }
 
     @Override
@@ -35,7 +41,7 @@ public abstract class AbstractGenerateAction extends AbstractCouchAppAction {
 
         // refresh the directory
         if (fsModified) {
-            FileUtil.refreshFor(couchAppDirectory);
+            FileUtil.refreshFor(getCouchAppDirectory());
         }
     }
 
@@ -47,6 +53,8 @@ public abstract class AbstractGenerateAction extends AbstractCouchAppAction {
         return null;
     }
 
+    protected abstract String getName();
+    
     protected abstract String getMessage();
 
     protected abstract boolean generate(Object chosenOption);

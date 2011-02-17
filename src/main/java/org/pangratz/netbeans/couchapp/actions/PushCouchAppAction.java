@@ -7,17 +7,24 @@ package org.pangratz.netbeans.couchapp.actions;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.Exceptions;
-import org.pangratz.netbeans.couchapp.CouchAppProject;
+import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil.CouchDbServer;
 
 public class PushCouchAppAction extends AbstractGenerateAction {
 
-    public PushCouchAppAction(CouchAppProject cap) {
-        super(cap);
+    public PushCouchAppAction(Lookup actionContext) {
+        super(actionContext);
+    }
 
-        putValue(NAME, "Push CouchApp ...");
+    public PushCouchAppAction() {
+        super();
+
+        putValue(SMALL_ICON, new ImageIcon(ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png")));
     }
 
     @Override
@@ -33,7 +40,7 @@ public class PushCouchAppAction extends AbstractGenerateAction {
     @Override
     protected Object[] getOptions() {
         try {
-            List<CouchDbServer> couchDbServers = couchappUtil.getCouchDbServers(couchAppDirectory);
+            List<CouchDbServer> couchDbServers = couchappUtil.getCouchDbServers(getCouchAppDirectory());
             String[] names = new String[couchDbServers.size()];
             int count = 0;
             for (CouchDbServer server : couchDbServers) {
@@ -50,7 +57,7 @@ public class PushCouchAppAction extends AbstractGenerateAction {
     @Override
     protected boolean generate(Object chosenDbName) {
         try {
-            String url = couchappUtil.pushCouchApp(couchAppDirectory, (String) chosenDbName);
+            String url = couchappUtil.pushCouchApp(getCouchAppDirectory(), (String) chosenDbName);
 
             // show the pushed couchapp
             URLDisplayer.getDefault().showURLExternal(new URL(url));
@@ -59,5 +66,17 @@ public class PushCouchAppAction extends AbstractGenerateAction {
         }
 
         return false;
+    }
+
+    @Override
+    protected String getName() {
+        return "Push CouchApp...";
+    }
+
+
+
+    @Override
+    public Action createContextAwareInstance(Lookup actionContext) {
+        return new PushCouchAppAction(actionContext);
     }
 }

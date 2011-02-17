@@ -5,15 +5,18 @@
 package org.pangratz.netbeans.couchapp.actions;
 
 import java.io.IOException;
+import javax.swing.Action;
 import org.openide.util.Exceptions;
-import org.pangratz.netbeans.couchapp.CouchAppProject;
+import org.openide.util.Lookup;
 
 public class GenerateFilterAction extends AbstractGenerateAction {
 
-    public GenerateFilterAction(CouchAppProject cap) {
-        super(cap);
+    public GenerateFilterAction(Lookup lookup) {
+        super(lookup);
+    }
 
-        putValue(NAME, "Generate Filter ...");
+    public GenerateFilterAction() {
+        super();
     }
 
     @Override
@@ -24,11 +27,21 @@ public class GenerateFilterAction extends AbstractGenerateAction {
     @Override
     protected boolean generate(Object filterName) {
         try {
-            couchappUtil.generateFilter(couchAppDirectory, (String) filterName);
+            couchappUtil.generateFilter(getCouchAppDirectory(), (String) filterName);
             return true;
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
         return false;
+    }
+
+    @Override
+    public Action createContextAwareInstance(Lookup actionContext) {
+        return new GenerateFilterAction(actionContext);
+    }
+
+    @Override
+    protected String getName() {
+        return "Generate Filter...";
     }
 }

@@ -5,15 +5,18 @@
 package org.pangratz.netbeans.couchapp.actions;
 
 import java.io.IOException;
+import javax.swing.Action;
 import org.openide.util.Exceptions;
-import org.pangratz.netbeans.couchapp.CouchAppProject;
+import org.openide.util.Lookup;
 
 public class GenerateViewAction extends AbstractGenerateAction {
 
-    public GenerateViewAction(CouchAppProject cap) {
-        super(cap);
+    public GenerateViewAction(Lookup lookup) {
+        super(lookup);
+    }
 
-        putValue(NAME, "Generate View ...");
+    public GenerateViewAction() {
+        super();
     }
 
     @Override
@@ -24,12 +27,22 @@ public class GenerateViewAction extends AbstractGenerateAction {
     @Override
     protected boolean generate(Object viewName) {
         try {
-            couchappUtil.generateView(couchAppDirectory, (String) viewName);
+            couchappUtil.generateView(getCouchAppDirectory(), (String) viewName);
             return true;
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
 
         return false;
+    }
+
+    @Override
+    public Action createContextAwareInstance(Lookup actionContext) {
+        return new GenerateViewAction(actionContext);
+    }
+
+    @Override
+    protected String getName() {
+        return "Generate View...";
     }
 }
