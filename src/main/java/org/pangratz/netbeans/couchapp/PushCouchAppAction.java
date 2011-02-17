@@ -4,80 +4,58 @@
  */
 package org.pangratz.netbeans.couchapp;
 
-import java.awt.Image;
-import org.openide.nodes.Node;
-import org.openide.util.HelpCtx;
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
+import org.openide.util.ContextAwareAction;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 import org.openide.util.Utilities;
-import org.openide.util.actions.NodeAction;
 
-public final class PushCouchAppAction extends NodeAction {
+public final class PushCouchAppAction extends AbstractAction implements LookupListener, ContextAwareAction {
 
-    private final Lookup actionContext;
+    private Lookup context = null;
+    private Lookup.Result<CouchAppProject> result = null;
 
     public PushCouchAppAction() {
         this(Utilities.actionsGlobalContext());
     }
 
-    private PushCouchAppAction(Lookup actionContext) {
+    public PushCouchAppAction(Lookup context) {
         super();
+        init(context);
 
-        // set name and icon
-        putValue(NAME, "Push CouchApp");
-        Image icon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png");
-        setIcon(ImageUtilities.image2Icon(icon));
+        putValue(NAME, "PushMyCouchApp");
+        putValue(SMALL_ICON, new ImageIcon(ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png")));
+    }
 
-        this.actionContext = actionContext;
+    private void init(Lookup context) {
+        this.context = context;
+        result = context.lookupResult(CouchAppProject.class);
+        result.addLookupListener(this);
+        resultChanged(null);
     }
 
     @Override
-    protected void performAction(Node[] nodes) {
-
-        if (nodes == null || nodes.length != 1) {
-            return;
+    public void actionPerformed(ActionEvent ae) {
+        Iterator<? extends CouchAppProject> it = result.allInstances().iterator();
+        while (it.hasNext()) {
+            Object object = it.next();
+            System.out.println("Push Couch App Action --> " + object);
         }
-
-        // get the project
-        Node node = nodes[0];
-        CouchAppProject project = node.getLookup().lookup(CouchAppProject.class);
-        if (project != null) {
-            return;
-        }
-        // get the ICouchAppUtil
-        ICouchAppUtil couchappUtil = actionContext.lookup(ICouchAppUtil.class);
-
-        // TODO create dialog and ask for location where the couch app shall be pushed ...
     }
 
     @Override
-    protected boolean enable(Node[] nodes) {
-        // check if a single CouchAppProject is selected
-        if (nodes == null || nodes.length != 1) {
-            return false;
-        }
-
-        Node node = nodes[0];
-        CouchAppProject project = node.getLookup().lookup(CouchAppProject.class);
-        if (project != null) {
-            return true;
-        }
-
-        return false;
+    public void resultChanged(LookupEvent ev) {
+        setEnabled(result.allItems().size() != 0);
     }
 
     @Override
-    protected boolean asynchronous() {
-        return false;
-    }
-
-    @Override
-    public HelpCtx getHelpCtx() {
-        return HelpCtx.DEFAULT_HELP;
-    }
-
-    @Override
-    public String getName() {
-        return (String) getValue(NAME);
+    public Action createContextAwareInstance(Lookup actionContext) {
+        return new PushCouchAppAction(actionContext);
     }
 }
