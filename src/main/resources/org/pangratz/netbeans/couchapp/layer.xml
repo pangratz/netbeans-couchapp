@@ -4,7 +4,7 @@
     <folder name="Actions">
         <folder name="File">
             <file name="org-pangratz-netbeans-couchapp-PushCouchAppAction.instance">
-                <attr name="instanceCreate" methodvalue="org.pangratz.netbeans.couchapp.PushCouchAppAction"/>
+                <attr name="instanceClass" stringvalue="org.pangratz.netbeans.couchapp.PushCouchAppAction"/>
                 <attr name="type" stringvalue="org.openide.nodes.Node"/> <!-- org.netbeans.api.project.Project -->
                 <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
                 <attr name="displayName" bundlevalue="org.pangratz.netbeans.couchapp.Bundle#CTL_PushCouchAppAction"/>
