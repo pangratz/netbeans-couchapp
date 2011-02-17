@@ -5,15 +5,18 @@
 package org.pangratz.netbeans.couchapp.actions;
 
 import java.io.IOException;
+import javax.swing.Action;
 import org.openide.util.Exceptions;
-import org.pangratz.netbeans.couchapp.CouchAppProject;
+import org.openide.util.Lookup;
 
 public class GenerateUpdateAction extends AbstractGenerateAction {
 
-    public GenerateUpdateAction(CouchAppProject cap) {
-        super(cap);
+    public GenerateUpdateAction(Lookup lookup) {
+        super(lookup);
+    }
 
-        putValue(NAME, "Generate Update function ...");
+    public GenerateUpdateAction() {
+        super();
     }
 
     @Override
@@ -24,11 +27,21 @@ public class GenerateUpdateAction extends AbstractGenerateAction {
     @Override
     protected boolean generate(Object updateFunctionName) {
         try {
-            couchappUtil.generateUpdate(couchAppDirectory, (String) updateFunctionName);
+            couchappUtil.generateUpdate(getCouchAppDirectory(), (String) updateFunctionName);
             return true;
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
         return false;
+    }
+
+    @Override
+    public Action createContextAwareInstance(Lookup actionContext) {
+        return new GenerateUpdateAction(actionContext);
+    }
+
+    @Override
+    protected String getName() {
+        return "Generate Update...";
     }
 }

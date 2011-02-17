@@ -14,6 +14,8 @@ import org.openide.nodes.Children;
 import org.openide.nodes.Node;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
+import org.openide.util.Lookup;
+import org.openide.util.Utilities;
 import org.openide.util.lookup.Lookups;
 import org.pangratz.netbeans.couchapp.actions.GenerateFilterAction;
 import org.pangratz.netbeans.couchapp.actions.GenerateListAction;
@@ -63,18 +65,29 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
 
         @Override
         public Action[] getActions(boolean arg0) {
+            final String FOLDER = "Actions/Edit/";
+            Lookup pathLookup = Lookups.forPath(FOLDER);
+            
+            List<? extends Action> actionsForPath = Utilities.actionsForPath("Actions/CouchApp/");
+
             List<Action> nodeActions = new LinkedList<Action>();
             nodeActions.add(CommonProjectActions.newFileAction());
             nodeActions.add(null);
             nodeActions.add(CommonProjectActions.copyProjectAction());
             nodeActions.add(CommonProjectActions.deleteProjectAction());
             nodeActions.add(null);
+            /*
             nodeActions.add(new PushCouchAppAction(project));
             nodeActions.add(new GenerateShowAction(project));
             nodeActions.add(new GenerateViewAction(project));
             nodeActions.add(new GenerateListAction(project));
             nodeActions.add(new GenerateFilterAction(project));
             nodeActions.add(new GenerateUpdateAction(project));
+             *
+             */
+            nodeActions.add(null);
+            // nodeActions.add(pathLookup.lookup(org.pangratz.netbeans.couchapp.PushCouchAppAction.class));
+            nodeActions.addAll(actionsForPath);
             nodeActions.add(null);
             nodeActions.add(CommonProjectActions.setAsMainProjectAction());
             nodeActions.add(CommonProjectActions.closeProjectAction());

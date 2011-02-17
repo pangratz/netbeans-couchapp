@@ -5,15 +5,18 @@
 package org.pangratz.netbeans.couchapp.actions;
 
 import java.io.IOException;
+import javax.swing.Action;
 import org.openide.util.Exceptions;
-import org.pangratz.netbeans.couchapp.CouchAppProject;
+import org.openide.util.Lookup;
 
 public class GenerateListAction extends AbstractGenerateAction {
 
-    public GenerateListAction(CouchAppProject cap) {
-        super(cap);
+    private GenerateListAction(Lookup actionContext) {
+        super(actionContext);
+    }
 
-        putValue(NAME, "Generate List ...");
+    public GenerateListAction() {
+        super();
     }
 
     @Override
@@ -24,11 +27,21 @@ public class GenerateListAction extends AbstractGenerateAction {
     @Override
     protected boolean generate(Object listName) {
         try {
-            couchappUtil.generateList(couchAppDirectory, (String) listName);
+            couchappUtil.generateList(getCouchAppDirectory(), (String) listName);
             return true;
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
         return false;
+    }
+
+    @Override
+    public Action createContextAwareInstance(Lookup actionContext) {
+        return new GenerateListAction(actionContext);
+    }
+
+    @Override
+    protected String getName() {
+        return "Generate List...";
     }
 }
