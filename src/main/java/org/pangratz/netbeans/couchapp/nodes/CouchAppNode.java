@@ -14,7 +14,6 @@ import org.netbeans.spi.project.ui.support.NodeFactorySupport;
 import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.AbstractNode;
 import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
 import org.openide.util.Utilities;
 import org.openide.util.lookup.Lookups;
 import org.pangratz.netbeans.couchapp.CouchAppProject;
