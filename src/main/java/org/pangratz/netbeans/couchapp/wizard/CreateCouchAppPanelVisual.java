@@ -5,7 +5,8 @@
 package org.pangratz.netbeans.couchapp.wizard;
 
 import java.io.File;
-import javax.swing.ButtonModel;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -27,6 +28,7 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
         // Register listener on the textFields to make the automatic updates
         projectNameTextField.getDocument().addDocumentListener(this);
         projectLocationTextField.getDocument().addDocumentListener(this);
+        pullProjectUrlTextField.getDocument().addDocumentListener(this);
     }
 
     public String getProjectName() {
@@ -257,7 +259,11 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
         // check for valid URL - if pull option is selected
         if (pullProjectTypeButton.isEnabled()) {
             String url = pullProjectUrlTextField.getText();
-            System.out.println("Test for valid url: " + url);
+            try {
+                URL uu = new URL(url);
+            } catch (MalformedURLException ex) {
+                wizardDescriptor.putProperty("WizardPanel_errorMessage", "Invalid CouchApp URL");
+            }
         }
 
         return true;
