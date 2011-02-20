@@ -1,5 +1,6 @@
 package org.pangratz.netbeans.couchapp.nodes;
 
+import java.io.IOException;
 import org.netbeans.api.project.Project;
 import org.netbeans.spi.project.ui.support.NodeFactory;
 import org.netbeans.spi.project.ui.support.NodeFactorySupport;
@@ -53,7 +54,15 @@ public class CouchAppFolderNodes implements NodeFactory {
     }
 
     private Node getNode(Lookup lkp, FileObject projectDir, String path, String displayName) throws DataObjectNotFoundException {
-        DataObject dataObj = DataObject.find(projectDir.getFileObject(path));
+        FileObject fileObj = projectDir.getFileObject(path);
+        if (fileObj == null) {
+            try {
+                fileObj = projectDir.createFolder(path.replaceFirst("/", ""));
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
+        DataObject dataObj = DataObject.find(fileObj);
         Node node = dataObj.getNodeDelegate();
         return new FolderNode(node, lkp, displayName);
     }
