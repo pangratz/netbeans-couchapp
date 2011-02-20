@@ -16,14 +16,28 @@ import org.openide.util.lookup.Lookups;
 
 public abstract class AbstractCouchAppFolderNode extends FilterNode implements NodeFactory {
 
+    public AbstractCouchAppFolderNode(Node original, Children children, Lookup lkp) throws DataObjectNotFoundException {
+        super(original, children, lkp);
+    }
+
     public AbstractCouchAppFolderNode(Node original, Lookup lkp) throws DataObjectNotFoundException {
         super(original, new ProxyChildren(original), lkp);
+    }
 
+    public AbstractCouchAppFolderNode(Node original) throws DataObjectNotFoundException {
+        super(original);
+    }
+
+    public AbstractCouchAppFolderNode() {
+        super(EMPTY);
     }
 
     protected abstract FilterNode getNode(Node original, Lookup lookup) throws DataObjectNotFoundException;
 
     protected abstract String getFolderPath();
+
+    @Override
+    public abstract String getDisplayName();
 
     @Override
     public Image getOpenedIcon(int type) {
