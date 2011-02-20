@@ -5,6 +5,8 @@
 package org.pangratz.netbeans.couchapp.wizard;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -14,6 +16,7 @@ import org.netbeans.spi.project.ui.support.ProjectChooser;
 import org.openide.WizardDescriptor;
 import org.openide.WizardValidationException;
 import org.openide.filesystems.FileUtil;
+import org.openide.util.Exceptions;
 
 public class CreateCouchAppPanelVisual extends JPanel implements DocumentListener {
 
@@ -40,6 +43,7 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        createTypeButtonGroup = new javax.swing.ButtonGroup();
         projectNameLabel = new javax.swing.JLabel();
         projectNameTextField = new javax.swing.JTextField();
         projectLocationLabel = new javax.swing.JLabel();
@@ -47,6 +51,10 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
         browseButton = new javax.swing.JButton();
         createdFolderLabel = new javax.swing.JLabel();
         createdFolderTextField = new javax.swing.JTextField();
+        separator = new javax.swing.JSeparator();
+        defaultProjectTypeButton = new javax.swing.JRadioButton();
+        pullProjectTypeButton = new javax.swing.JRadioButton();
+        pullProjectUrlTextField = new javax.swing.JTextField();
 
         projectNameLabel.setLabelFor(projectNameTextField);
         org.openide.awt.Mnemonics.setLocalizedText(projectNameLabel, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.projectNameLabel.text")); // NOI18N
@@ -67,6 +75,19 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
 
         createdFolderTextField.setEditable(false);
 
+        createTypeButtonGroup.add(defaultProjectTypeButton);
+        org.openide.awt.Mnemonics.setLocalizedText(defaultProjectTypeButton, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.defaultProjectTypeButton.text")); // NOI18N
+
+        createTypeButtonGroup.add(pullProjectTypeButton);
+        org.openide.awt.Mnemonics.setLocalizedText(pullProjectTypeButton, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.pullProjectTypeButton.text")); // NOI18N
+
+        pullProjectUrlTextField.setText(org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.pullProjectUrlTextField.text")); // NOI18N
+        pullProjectUrlTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                pullProjectUrlTextFieldKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,16 +95,24 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(projectNameLabel)
-                    .addComponent(projectLocationLabel)
-                    .addComponent(createdFolderLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(projectNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-                    .addComponent(projectLocationTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-                    .addComponent(createdFolderTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(browseButton)
+                    .addComponent(separator, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(projectNameLabel)
+                            .addComponent(projectLocationLabel)
+                            .addComponent(createdFolderLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(projectNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(projectLocationTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(createdFolderTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(browseButton))
+                    .addComponent(defaultProjectTypeButton)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pullProjectTypeButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(pullProjectUrlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -102,7 +131,15 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createdFolderLabel)
                     .addComponent(createdFolderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(defaultProjectTypeButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pullProjectTypeButton)
+                    .addComponent(pullProjectUrlTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -128,14 +165,24 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
         }
 
     }//GEN-LAST:event_browseButtonActionPerformed
+
+    private void pullProjectUrlTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pullProjectUrlTextFieldKeyTyped
+        createTypeButtonGroup.setSelected(pullProjectTypeButton.getModel(), true);
+    }//GEN-LAST:event_pullProjectUrlTextFieldKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
+    private javax.swing.ButtonGroup createTypeButtonGroup;
     private javax.swing.JLabel createdFolderLabel;
     private javax.swing.JTextField createdFolderTextField;
+    private javax.swing.JRadioButton defaultProjectTypeButton;
     private javax.swing.JLabel projectLocationLabel;
     private javax.swing.JTextField projectLocationTextField;
     private javax.swing.JLabel projectNameLabel;
     private javax.swing.JTextField projectNameTextField;
+    private javax.swing.JRadioButton pullProjectTypeButton;
+    private javax.swing.JTextField pullProjectUrlTextField;
+    private javax.swing.JSeparator separator;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -214,7 +261,6 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
     }
 
     void validate(WizardDescriptor d) throws WizardValidationException {
-        // nothing to validate
     }
 
     // Implementation of DocumentListener --------------------------------------
