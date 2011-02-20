@@ -153,6 +153,9 @@
           <ResourceString bundle="org/pangratz/netbeans/couchapp/wizard/Bundle.properties" key="CreateCouchAppPanelVisual.defaultProjectTypeButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="defaultProjectTypeButtonStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="pullProjectTypeButton">
       <Properties>
@@ -163,12 +166,16 @@
           <ResourceString bundle="org/pangratz/netbeans/couchapp/wizard/Bundle.properties" key="CreateCouchAppPanelVisual.pullProjectTypeButton.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="pullProjectTypeButtonStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="pullProjectUrlTextField">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
           <ResourceString bundle="org/pangratz/netbeans/couchapp/wizard/Bundle.properties" key="CreateCouchAppPanelVisual.pullProjectUrlTextField.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="pullProjectUrlTextFieldKeyTyped"/>

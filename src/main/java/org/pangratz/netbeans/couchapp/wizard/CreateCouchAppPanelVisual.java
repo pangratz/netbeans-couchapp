@@ -76,11 +76,22 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
         createTypeButtonGroup.add(defaultProjectTypeButton);
         defaultProjectTypeButton.setSelected(true);
         org.openide.awt.Mnemonics.setLocalizedText(defaultProjectTypeButton, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.defaultProjectTypeButton.text")); // NOI18N
+        defaultProjectTypeButton.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                defaultProjectTypeButtonStateChanged(evt);
+            }
+        });
 
         createTypeButtonGroup.add(pullProjectTypeButton);
         org.openide.awt.Mnemonics.setLocalizedText(pullProjectTypeButton, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.pullProjectTypeButton.text")); // NOI18N
+        pullProjectTypeButton.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                pullProjectTypeButtonStateChanged(evt);
+            }
+        });
 
         pullProjectUrlTextField.setText(org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.pullProjectUrlTextField.text")); // NOI18N
+        pullProjectUrlTextField.setEnabled(false);
         pullProjectUrlTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 pullProjectUrlTextFieldKeyTyped(evt);
@@ -168,6 +179,18 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
     private void pullProjectUrlTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pullProjectUrlTextFieldKeyTyped
         createTypeButtonGroup.setSelected(pullProjectTypeButton.getModel(), true);
     }//GEN-LAST:event_pullProjectUrlTextFieldKeyTyped
+
+    private void defaultProjectTypeButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_defaultProjectTypeButtonStateChanged
+        if (defaultProjectTypeButton.isEnabled()) {
+            pullProjectUrlTextField.setEnabled(false);
+        }
+    }//GEN-LAST:event_defaultProjectTypeButtonStateChanged
+
+    private void pullProjectTypeButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pullProjectTypeButtonStateChanged
+        if (pullProjectTypeButton.isEnabled()) {
+            pullProjectUrlTextField.setEnabled(true);
+        }
+    }//GEN-LAST:event_pullProjectTypeButtonStateChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup createTypeButtonGroup;
