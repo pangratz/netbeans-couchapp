@@ -161,6 +161,7 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
 
         String tanga = IOUtils.toString(new FileReader(couchappRc));
 
+        // TODO implement error handling
         Object obj = JSONValue.parse(tanga);
         JSONObject json = (JSONObject) obj;
         JSONObject env = (JSONObject) json.get("env");
