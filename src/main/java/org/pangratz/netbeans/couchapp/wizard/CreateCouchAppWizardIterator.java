@@ -7,6 +7,7 @@ package org.pangratz.netbeans.couchapp.wizard;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
@@ -55,17 +56,14 @@ public class CreateCouchAppWizardIterator implements WizardDescriptor.Instantiat
         File dirF = FileUtil.normalizeFile((File) wiz.getProperty("projdir"));
 
         ICouchAppUtil couchAppUtil = Lookup.getDefault().lookup(ICouchAppUtil.class);
-        couchAppUtil.generateCouchApp(dirF);
-        // runtime.exec(cmd);
 
-        /*
-        dirF.mkdirs();
-
-        // TODO generate couchapp with tool
-        FileObject dir = FileUtil.toFileObject(dirF);
-        FileObject appFolder = dir.createFolder("app");
-        appFolder.createFolder("views");
-         */
+        String createType = (String) wiz.getProperty("createType");
+        if (CreateCouchAppWizardPanel.CLONE_COUCHAPP.equalsIgnoreCase(createType)) {
+            String cloneCouchAppUrl = (String) wiz.getProperty("cloneCouchAppUrl");
+            couchAppUtil.cloneCouchApp(dirF, new URL(cloneCouchAppUrl));
+        } else {
+            couchAppUtil.generateCouchApp(dirF);
+        }
 
         ProjectManager projectManager = ProjectManager.getDefault();
         FileObject dir = FileUtil.toFileObject(dirF);

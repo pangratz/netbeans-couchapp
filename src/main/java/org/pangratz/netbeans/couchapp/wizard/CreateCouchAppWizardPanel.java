@@ -20,6 +20,7 @@ import org.openide.util.NbBundle;
 public class CreateCouchAppWizardPanel implements WizardDescriptor.Panel,
         WizardDescriptor.ValidatingPanel, WizardDescriptor.FinishablePanel {
 
+    public static final String CLONE_COUCHAPP = "clone_couchapp";
     private WizardDescriptor wizardDescriptor;
     private CreateCouchAppPanelVisual component;
 

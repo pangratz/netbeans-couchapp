@@ -5,6 +5,10 @@
 package org.pangratz.netbeans.couchapp.wizard;
 
 import java.io.File;
+<<<<<<< Updated upstream
+=======
+import javax.swing.ButtonModel;
+>>>>>>> Stashed changes
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -18,6 +22,7 @@ import org.openide.filesystems.FileUtil;
 public class CreateCouchAppPanelVisual extends JPanel implements DocumentListener {
 
     public static final String PROP_PROJECT_NAME = "projectName";
+
     private CreateCouchAppWizardPanel panel;
 
     public CreateCouchAppPanelVisual(CreateCouchAppWizardPanel panel) {
@@ -67,6 +72,23 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
 
         createdFolderTextField.setEditable(false);
 
+<<<<<<< Updated upstream
+=======
+        createTypeButtonGroup.add(defaultProjectTypeButton);
+        defaultProjectTypeButton.setSelected(true);
+        org.openide.awt.Mnemonics.setLocalizedText(defaultProjectTypeButton, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.defaultProjectTypeButton.text")); // NOI18N
+
+        createTypeButtonGroup.add(pullProjectTypeButton);
+        org.openide.awt.Mnemonics.setLocalizedText(pullProjectTypeButton, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.pullProjectTypeButton.text")); // NOI18N
+
+        pullProjectUrlTextField.setText(org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.pullProjectUrlTextField.text")); // NOI18N
+        pullProjectUrlTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                pullProjectUrlTextFieldKeyTyped(evt);
+            }
+        });
+
+>>>>>>> Stashed changes
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,6 +207,9 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
             return false;
         }
         wizardDescriptor.putProperty("WizardPanel_errorMessage", "");
+        // check for valid URL - if pull option is selected
+        ButtonModel selectedType = createTypeButtonGroup.getSelection();
+
         return true;
     }
 
