@@ -21,6 +21,7 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 import org.openide.util.Exceptions;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -159,23 +160,40 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
             throw new IllegalStateException(COUCHAPPRC + " file does not exist in folder " + folder);
         }
 
+        List<CouchDbServer> couchDbServers = new LinkedList<CouchDbServer>();
         String tanga = IOUtils.toString(new FileReader(couchappRc));
 
         // TODO implement error handling
-        Object obj = JSONValue.parse(tanga);
-        JSONObject json = (JSONObject) obj;
-        JSONObject env = (JSONObject) json.get("env");
-
-        List<CouchDbServer> couchDbServers = new LinkedList<CouchDbServer>();
-        for (Object object : env.keySet()) {
-            String name = object.toString();
-
-            JSONObject severObj = (JSONObject) env.get(name);
-            String server = severObj.get("db").toString();
-
-            couchDbServers.add(new CouchDbServer(name, server));
+        Object obj;
+        try {
+            obj = JSONValue.parseWithException(tanga);
+        } catch (ParseException ex) {
+            Exceptions.printStackTrace(ex);
+            return couchDbServers;
         }
-        return couchDbServers;
+
+        try {
+            JSONObject json = (JSONObject) obj;
+            JSONObject env = (JSONObject) json.get("env");
+
+            if (env == null) {
+                return couchDbServers;
+            }
+
+            for (Object object : env.keySet()) {
+                String name = object.toString();
+
+                JSONObject severObj = (JSONObject) env.get(name);
+                String server = severObj.get("db").toString();
+
+                couchDbServers.add(new CouchDbServer(name, server));
+            }
+            return couchDbServers;
+        } catch (Exception ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        return new LinkedList<CouchDbServer>();
     }
 
     @Override
