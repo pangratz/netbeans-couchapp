@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JDialog;
 import javax.swing.JList;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil.CouchDbServer;
 
@@ -39,20 +40,24 @@ public class PushCouchAppPanel extends javax.swing.JPanel {
             return super.getListCellRendererComponent(jlist, o, i, bln, bln1);
         }
     }
+    private boolean okPressed = false;
     private final ComboBoxModel couchDbServerModel;
+    private final JDialog owner;
     private final LinkedList<CouchDbServer> servers;
 
     /** Creates new form PushCouchAppPanel */
     public PushCouchAppPanel() {
-        this(null);
+        this(null, null);
     }
 
     private ComboBoxModel getCouchDbServerModel() {
         return couchDbServerModel;
     }
 
-    public PushCouchAppPanel(List<CouchDbServer> servers) {
+    public PushCouchAppPanel(JDialog owner, List<CouchDbServer> servers) {
         super();
+        
+        this.owner = owner;
 
         this.servers = new LinkedList<CouchDbServer>();
         if (servers != null) {
@@ -78,8 +83,11 @@ public class PushCouchAppPanel extends javax.swing.JPanel {
         newCouchDbInstance = new javax.swing.JRadioButton();
         newCouchDbLocationTextField = new javax.swing.JTextField();
         messageLabel = new javax.swing.JLabel();
+        okButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
 
         choicesButtonGroup.add(predefinedCouchDbInstance);
+        predefinedCouchDbInstance.setSelected(true);
         predefinedCouchDbInstance.setText(org.openide.util.NbBundle.getMessage(PushCouchAppPanel.class, "PushCouchAppPanel.predefinedCouchDbInstance.text")); // NOI18N
 
         predefinedCouchDbInstancesComboBox.setModel(getCouchDbServerModel());
@@ -92,6 +100,20 @@ public class PushCouchAppPanel extends javax.swing.JPanel {
 
         messageLabel.setText(org.openide.util.NbBundle.getMessage(PushCouchAppPanel.class, "PushCouchAppPanel.messageLabel.text")); // NOI18N
 
+        okButton.setText(org.openide.util.NbBundle.getMessage(PushCouchAppPanel.class, "PushCouchAppPanel.okButton.text")); // NOI18N
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setText(org.openide.util.NbBundle.getMessage(PushCouchAppPanel.class, "PushCouchAppPanel.cancelButton.text")); // NOI18N
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,21 +121,27 @@ public class PushCouchAppPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(29, 29, 29)
-                        .add(predefinedCouchDbInstancesComboBox, 0, 345, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .add(layout.createSequentialGroup()
-                        .add(messageLabel)
-                        .addContainerGap())
-                    .add(predefinedCouchDbInstance)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(29, 29, 29)
-                                .add(newCouchDbLocationTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
-                            .add(newCouchDbInstance))
-                        .add(36, 36, 36))))
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(layout.createSequentialGroup()
+                            .add(29, 29, 29)
+                            .add(predefinedCouchDbInstancesComboBox, 0, 345, Short.MAX_VALUE)
+                            .addContainerGap())
+                        .add(layout.createSequentialGroup()
+                            .add(messageLabel)
+                            .addContainerGap())
+                        .add(predefinedCouchDbInstance)
+                        .add(layout.createSequentialGroup()
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(layout.createSequentialGroup()
+                                    .add(29, 29, 29)
+                                    .add(newCouchDbLocationTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
+                                .add(newCouchDbInstance))
+                            .add(36, 36, 36)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(cancelButton)
+                        .add(18, 18, 18)
+                        .add(okButton)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -128,19 +156,38 @@ public class PushCouchAppPanel extends javax.swing.JPanel {
                 .add(newCouchDbInstance)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(newCouchDbLocationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(okButton)
+                    .add(cancelButton))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        okPressed = true;
+        owner.dispose();
+    }//GEN-LAST:event_okButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        owner.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelButton;
     private javax.swing.ButtonGroup choicesButtonGroup;
     private javax.swing.JLabel messageLabel;
     private javax.swing.JRadioButton newCouchDbInstance;
     private javax.swing.JTextField newCouchDbLocationTextField;
+    private javax.swing.JButton okButton;
     private javax.swing.JRadioButton predefinedCouchDbInstance;
     private javax.swing.JComboBox predefinedCouchDbInstancesComboBox;
     // End of variables declaration//GEN-END:variables
 
     public String getChosenCouchDbUrl() {
+        if (!okPressed) {
+            return null;
+        }
+
         if (predefinedCouchDbInstance.isSelected()) {
             Object selectedItem = predefinedCouchDbInstancesComboBox.getSelectedItem();
             if (selectedItem != null) {

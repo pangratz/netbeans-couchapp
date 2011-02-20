@@ -24,7 +24,7 @@ public class PushCouchAppDialog extends JDialog {
     public PushCouchAppDialog(List<CouchDbServer> servers) {
         super();
 
-        this.pushCouchAppPanel = new PushCouchAppPanel(servers);
+        this.pushCouchAppPanel = new PushCouchAppPanel(this, servers);
         getContentPane().add(pushCouchAppPanel);
         pack();
 
