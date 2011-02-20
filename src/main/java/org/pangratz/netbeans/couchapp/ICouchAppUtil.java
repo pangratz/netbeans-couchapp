@@ -19,6 +19,8 @@ public interface ICouchAppUtil {
     public static final String FOLDER_SHOWS = "shows";
     public static final String FOLDER_LISTS = "lists";
     public static final String FOLDER_FILTERS = "filters";
+    public static final String FOLDER_EVENTLY = "evently";
+    public static final String FOLDER_UPDATES = "updates";
 
     public void generateCouchApp(File folder) throws IOException;
 
