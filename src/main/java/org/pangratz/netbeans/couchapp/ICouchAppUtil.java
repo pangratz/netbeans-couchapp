@@ -11,6 +11,8 @@ import java.util.List;
 public interface ICouchAppUtil {
 
     public static final String COUCHAPPRC = ".couchapprc";
+    public static final String COUCHAPP_JSON = "couchapp.json";
+    public static final String _ID = "_id";
 
     public void generateCouchApp(File folder) throws IOException;
 

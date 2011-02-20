@@ -18,6 +18,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
 @NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 100)
 public class ImportantFilesNodeFactory implements NodeFactory {
@@ -70,13 +71,13 @@ public class ImportantFilesNodeFactory implements NodeFactory {
 
         protected boolean accept(File file) {
             String name = file.getName();
-            if (".couchapprc".equals(name)) {
+            if (ICouchAppUtil.COUCHAPPRC.equals(name)) {
                 return true;
             }
-            if ("couchapp.json".equals(name)) {
+            if (ICouchAppUtil.COUCHAPP_JSON.equals(name)) {
                 return true;
             }
-            if ("_id".equals(name)) {
+            if (ICouchAppUtil._ID.equals(name)) {
                 return true;
             }
 
