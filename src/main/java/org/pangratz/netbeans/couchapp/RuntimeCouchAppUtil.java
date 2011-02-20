@@ -27,6 +27,8 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = ICouchAppUtil.class)
 public class RuntimeCouchAppUtil implements ICouchAppUtil {
 
+    private static String COUCHAPP_FILE = null;
+
     @Override
     public void generateCouchApp(File folder) throws IOException {
         String couchappPyFile = getCouchappPyFile();
@@ -35,15 +37,19 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
     }
 
     private String getCouchappPyFile() throws IOException {
-        ClassLoader syscl = Thread.currentThread().getContextClassLoader();
-        URL couchappZipURL = syscl.getResource("modules/couchapp.zip");
-        // System.out.println(couchappZipURL != null ? couchappZipURL.getPath() : "NO COUCHAPP.ZIP");
+        if (COUCHAPP_FILE == null) {
+            ClassLoader syscl = Thread.currentThread().getContextClassLoader();
+            URL couchappZipURL = syscl.getResource("modules/couchapp.zip");
+            // System.out.println(couchappZipURL != null ? couchappZipURL.getPath() : "NO COUCHAPP.ZIP");
 
-        String uuid = UUID.randomUUID().toString();
-        File tmpDir = new File(System.getProperty("java.io.tmpdir"), uuid);
+            String uuid = UUID.randomUUID().toString();
+            File tmpDir = new File(System.getProperty("java.io.tmpdir"), uuid);
 
-        unzipTo(couchappZipURL, tmpDir);
-        return tmpDir.getPath() + "/Couchapp.py";
+            unzipTo(couchappZipURL, tmpDir);
+
+            COUCHAPP_FILE = tmpDir.getPath() + "/Couchapp.py";
+        }
+        return COUCHAPP_FILE;
     }
 
     private void unzipTo(URL couchappZipURL, File tmpDir) throws IOException {
