@@ -18,14 +18,11 @@ import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectManager;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.WizardDescriptor;
-import org.openide.cookies.OpenCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
-import org.openide.loaders.DataObject;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil;
-import org.pangratz.netbeans.couchapp.RuntimeCouchAppUtil;
 
 public class CreateCouchAppWizardIterator implements WizardDescriptor.InstantiatingIterator {
 
