@@ -7,19 +7,19 @@ import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 
 @NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 300)
-public class ViewsFilesNode extends AbstractCouchAppFolderNode {
+    public class ViewsNode extends AbstractCouchAppFolderNode {
 
-    public ViewsFilesNode(Node original, Lookup lookup) throws DataObjectNotFoundException {
+    public ViewsNode(Node original, Lookup lookup) throws DataObjectNotFoundException {
         super(original, lookup);
     }
 
-    public ViewsFilesNode() {
+    public ViewsNode() {
         super();
     }
 
     @Override
     protected FilterNode getNode(Node original, Lookup lookup) throws DataObjectNotFoundException {
-        return new ViewsFilesNode(original, lookup);
+        return new ViewsNode(original, lookup);
     }
 
     @Override
