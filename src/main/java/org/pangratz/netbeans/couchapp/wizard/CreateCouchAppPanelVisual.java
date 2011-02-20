@@ -19,7 +19,6 @@ import org.openide.filesystems.FileUtil;
 public class CreateCouchAppPanelVisual extends JPanel implements DocumentListener {
 
     public static final String PROP_PROJECT_NAME = "projectName";
-
     private CreateCouchAppWizardPanel panel;
 
     public CreateCouchAppPanelVisual(CreateCouchAppWizardPanel panel) {
@@ -169,7 +168,6 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
     private void pullProjectUrlTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pullProjectUrlTextFieldKeyTyped
         createTypeButtonGroup.setSelected(pullProjectTypeButton.getModel(), true);
     }//GEN-LAST:event_pullProjectUrlTextFieldKeyTyped
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup createTypeButtonGroup;
@@ -232,8 +230,12 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
             return false;
         }
         wizardDescriptor.putProperty("WizardPanel_errorMessage", "");
+
         // check for valid URL - if pull option is selected
-        ButtonModel selectedType = createTypeButtonGroup.getSelection();
+        if (pullProjectTypeButton.isEnabled()) {
+            String url = pullProjectUrlTextField.getText();
+            System.out.println("Test for valid url: " + url);
+        }
 
         return true;
     }
