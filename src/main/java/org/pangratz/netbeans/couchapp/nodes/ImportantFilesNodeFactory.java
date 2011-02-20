@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.pangratz.netbeans.couchapp.nodes;
 
 import java.awt.Image;
@@ -37,14 +33,10 @@ public class ImportantFilesNodeFactory implements NodeFactory {
 
     private static class ImportantFilesNode extends FilterNode {
 
-        private final Image icon;
+        private Image icon;
 
         private ImportantFilesNode(Node original, Lookup lkp) throws DataObjectNotFoundException {
             super(original, new ImportantFilesProxyChildren(original), lkp);
-
-            Image configBadgeIcon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/config-badge.gif");
-            Image couchdDbIcon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/couchdb-icon-16px.png");
-            icon = ImageUtilities.mergeImages(couchdDbIcon, configBadgeIcon, 7, 7);
         }
 
         @Override
@@ -54,6 +46,11 @@ public class ImportantFilesNodeFactory implements NodeFactory {
 
         @Override
         public Image getIcon(int type) {
+            if (icon == null) {
+                Image originalIcon = getOriginal().getIcon(type);
+                Image configBadgeIcon = ImageUtilities.loadImage("org/pangratz/netbeans/couchapp/config-badge.gif");
+                icon = ImageUtilities.mergeImages(originalIcon, configBadgeIcon, 7, 7);
+            }
             return icon;
         }
 
