@@ -14,6 +14,10 @@ public class ListsNode extends AbstractCouchAppFolderNode {
         super(original, lookup);
     }
 
+    public ListsNode() {
+        super();
+    }
+
     @Override
     protected FilterNode getNode(Node original, Lookup lookup) throws DataObjectNotFoundException {
         return new ListsNode(original, lookup);
