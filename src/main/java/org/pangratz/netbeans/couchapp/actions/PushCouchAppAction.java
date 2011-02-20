@@ -33,25 +33,16 @@ public class PushCouchAppAction extends AbstractGenerateAction {
     }
 
     @Override
-    protected boolean hasOptions() {
-        return true;
-    }
-
-    @Override
-    protected Object[] getOptions() {
+    protected String showOptionDialog(String msg) {
         try {
             List<CouchDbServer> couchDbServers = couchappUtil.getCouchDbServers(getCouchAppDirectory());
-            String[] names = new String[couchDbServers.size()];
-            int count = 0;
-            for (CouchDbServer server : couchDbServers) {
-                names[count++] = server.getName();
-            }
-            return names;
+            PushCouchAppDialog dialog = new PushCouchAppDialog(couchDbServers);
+            dialog.setVisible(true);
+            return dialog.getChosenCouchDbUrl();
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-
-        return new String[]{"default"};
+        return null;
     }
 
     @Override
@@ -72,8 +63,6 @@ public class PushCouchAppAction extends AbstractGenerateAction {
     protected String getName() {
         return "Push CouchApp...";
     }
-
-
 
     @Override
     public Action createContextAwareInstance(Lookup actionContext) {
