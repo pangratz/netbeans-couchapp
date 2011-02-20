@@ -7,7 +7,7 @@ import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
-@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 200)
+@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject")
 public class ShowsNode extends AbstractCouchAppFolderNode {
 
     private ShowsNode(Node original, Lookup lookup) throws DataObjectNotFoundException {

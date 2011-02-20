@@ -10,7 +10,7 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
-@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 100)
+@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 25)
 public class CouchAppFilesNode extends AbstractCouchAppFolderNode {
 
     private Image icon;

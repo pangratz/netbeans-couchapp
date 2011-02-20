@@ -7,7 +7,7 @@ import org.openide.nodes.Node;
 import org.openide.util.Lookup;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
-@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 400)
+@NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject")
 public class ListsNode extends AbstractCouchAppFolderNode {
 
     public ListsNode(Node original, Lookup lookup) throws DataObjectNotFoundException {
@@ -25,11 +25,11 @@ public class ListsNode extends AbstractCouchAppFolderNode {
 
     @Override
     protected String getFolderPath() {
-        return "/" + ICouchAppUtil.FOLDER_VIEWS;
+        return "/" + ICouchAppUtil.FOLDER_LISTS;
     }
 
     @Override
     public String getDisplayName() {
-        return "Views";
+        return "Lists";
     }
 }
