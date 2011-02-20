@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 import junit.framework.TestCase;
@@ -22,6 +23,21 @@ public class CouchAppUtilTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         this.couchAppUtil = new RuntimeCouchAppUtil();
+    }
+
+    public void testCloneCouchApp() throws IOException {
+        File couchAppDir = generateCouchApp();
+        String couchAppUrl = "http://localhost:5984/clone";
+        couchAppUrl = couchAppUtil.pushCouchApp(couchAppDir, couchAppUrl);
+        couchAppUrl = couchAppUrl.replace("/index.html", "");
+
+        File tmpDir = getTmpFolder();
+        URL url = new URL(couchAppUrl);
+        couchAppUtil.cloneCouchApp(tmpDir, url);
+        
+        assertTrue("missing .couchapprc file", new File(tmpDir, ".couchapprc").exists());
+        assertTrue("missing couchapp.json file", new File(tmpDir, "couchapp.json").exists());
+        assertTrue("missing _attachments directory", new File(tmpDir, "_attachments").exists());
     }
 
     public void testGenerateFilter() throws IOException {
@@ -103,9 +119,14 @@ public class CouchAppUtilTest extends TestCase {
         assertEquals("expected different URL of second server", "http://localhost:5984/mydb_prod", second.getServer());
     }
 
-    private File generateCouchApp() throws IOException {
+    private File getTmpFolder() {
         String uuid = UUID.randomUUID().toString();
         File tmpDir = new File(System.getProperty("java.io.tmpdir"), uuid);
+        return tmpDir;
+    }
+
+    private File generateCouchApp() throws IOException {
+        File tmpDir = getTmpFolder();
         couchAppUtil.generateCouchApp(tmpDir);
 
         return tmpDir;

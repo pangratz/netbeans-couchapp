@@ -6,6 +6,7 @@ package org.pangratz.netbeans.couchapp;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public interface ICouchAppUtil {
@@ -31,6 +32,8 @@ public interface ICouchAppUtil {
     public String pushCouchApp(File folder, String destination) throws IOException;
 
     public List<CouchDbServer> getCouchDbServers(File folder) throws IOException;
+
+    public void cloneCouchApp(File folder, URL couchAppUrl) throws IOException;
 
     public static final class CouchDbServer {
 

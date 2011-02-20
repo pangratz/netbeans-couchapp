@@ -177,4 +177,11 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         String cmd = String.format("python %s generate update %s %s", couchappPyFile, folder.getPath(), updateFunctionName);
         executeCommand(cmd);
     }
+
+    @Override
+    public void cloneCouchApp(File folder, URL couchAppUrl) throws IOException {
+        String couchappPyFile = getCouchappPyFile();
+        String cmd = String.format("python %s clone %s %s", couchappPyFile, couchAppUrl.toString(), folder.getPath());
+        executeCommand(cmd);
+    }
 }
