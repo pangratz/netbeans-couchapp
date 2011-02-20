@@ -13,6 +13,12 @@ public interface ICouchAppUtil {
     public static final String COUCHAPPRC = ".couchapprc";
     public static final String COUCHAPP_JSON = "couchapp.json";
     public static final String _ID = "_id";
+    
+    public static final String FOLDER_ATTACHMENTS = "_attachments";
+    public static final String FOLDER_VIEWS = "views";
+    public static final String FOLDER_SHOWS = "shows";
+    public static final String FOLDER_LISTS = "lists";
+    public static final String FOLDER_FILTERS = "filters";
 
     public void generateCouchApp(File folder) throws IOException;
 
