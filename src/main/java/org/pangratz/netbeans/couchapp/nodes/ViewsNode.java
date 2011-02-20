@@ -5,9 +5,10 @@ import org.openide.loaders.DataObjectNotFoundException;
 import org.openide.nodes.FilterNode;
 import org.openide.nodes.Node;
 import org.openide.util.Lookup;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
 @NodeFactory.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 300)
-    public class ViewsNode extends AbstractCouchAppFolderNode {
+public class ViewsNode extends AbstractCouchAppFolderNode {
 
     public ViewsNode(Node original, Lookup lookup) throws DataObjectNotFoundException {
         super(original, lookup);
@@ -24,7 +25,7 @@ import org.openide.util.Lookup;
 
     @Override
     protected String getFolderPath() {
-        return "/views";
+        return "/" + ICouchAppUtil.FOLDER_VIEWS;
     }
 
     @Override
