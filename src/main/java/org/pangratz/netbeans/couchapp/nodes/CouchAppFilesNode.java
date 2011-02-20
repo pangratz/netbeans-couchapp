@@ -49,7 +49,7 @@ public class CouchAppFilesNode extends AbstractCouchAppFolderNode {
         return icon;
     }
 
-    private static class ImportantFilesProxyChildren extends FilterNode.Children {
+    private static class ImportantFilesProxyChildren extends ProxyChildren {
 
         public ImportantFilesProxyChildren(Node original) {
             super(original);
