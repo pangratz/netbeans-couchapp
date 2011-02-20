@@ -76,8 +76,6 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
 
         createTypeButtonGroup.add(defaultProjectTypeButton);
         defaultProjectTypeButton.setSelected(true);
-
-        createTypeButtonGroup.add(defaultProjectTypeButton);
         org.openide.awt.Mnemonics.setLocalizedText(defaultProjectTypeButton, org.openide.util.NbBundle.getMessage(CreateCouchAppPanelVisual.class, "CreateCouchAppPanelVisual.defaultProjectTypeButton.text")); // NOI18N
 
         createTypeButtonGroup.add(pullProjectTypeButton);
@@ -97,6 +95,9 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(pullProjectUrlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
                     .addComponent(separator, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,10 +112,7 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseButton))
                     .addComponent(defaultProjectTypeButton)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(pullProjectTypeButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(pullProjectUrlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)))
+                    .addComponent(pullProjectTypeButton))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -138,10 +136,10 @@ public class CreateCouchAppPanelVisual extends JPanel implements DocumentListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(defaultProjectTypeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pullProjectTypeButton)
-                    .addComponent(pullProjectUrlTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addComponent(pullProjectTypeButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pullProjectUrlTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
