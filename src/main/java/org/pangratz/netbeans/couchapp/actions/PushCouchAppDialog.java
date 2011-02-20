@@ -19,6 +19,7 @@ public class PushCouchAppDialog extends JDialog {
         pushCouchAppDialog.setVisible(true);
         System.out.println(pushCouchAppDialog.getChosenCouchDbUrl());
     }
+
     private final PushCouchAppPanel pushCouchAppPanel;
 
     public PushCouchAppDialog(List<CouchDbServer> servers) {
@@ -30,6 +31,9 @@ public class PushCouchAppDialog extends JDialog {
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setModal(true);
+
+        // center dialog
+        setLocationRelativeTo(null);
     }
 
     public String getChosenCouchDbUrl() {
