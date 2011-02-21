@@ -3,18 +3,33 @@
 <filesystem>
     <folder name="Actions">
         <folder name="CouchApp">
-            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateViewAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateShowAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateListAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateFilterAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateUpdateAction.instance" />
+            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateViewAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateShowAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateListAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateFilterAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateUpdateAction.instance"/>
+        </folder>
+        <folder name="Window">
+            <file name="org-pangratz-netbeans-couchapp-editor-CouchAppEditorAction.instance">
+                <attr name="component" methodvalue="org.pangratz.netbeans.couchapp.editor.CouchAppEditorTopComponent.findInstance"/>
+                <attr name="displayName" bundlevalue="org.pangratz.netbeans.couchapp.editor.Bundle#CTL_CouchAppEditorAction"/>
+                <attr name="iconBase" stringvalue="org/pangratz/netbeans/couchapp/couchdb-icon-16px.png"/>
+                <attr name="instanceCreate" methodvalue="org.openide.windows.TopComponent.openAction"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Window">
+            <file name="CouchAppEditorAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Window/org-pangratz-netbeans-couchapp-editor-CouchAppEditorAction.instance"/>
+            </file>
         </folder>
     </folder>
     <folder name="Toolbars">
         <folder name="Build">
-            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance" >
-                <attr name="position" intvalue="0" />
+            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance">
+                <attr name="position" intvalue="0"/>
             </file>
         </folder>
     </folder>
@@ -28,6 +43,16 @@
                     <attr name="instantiatingWizardURL" urlvalue="nbresloc:/org/pangratz/netbeans/couchapp/CouchAppDescription.html"/>
                     <attr name="template" boolvalue="true"/>
                 </file>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="CouchAppEditorTopComponent.settings" url="CouchAppEditorTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="CouchAppEditorTopComponent.wstcref" url="CouchAppEditorTopComponentWstcref.xml"/>
             </folder>
         </folder>
     </folder>
