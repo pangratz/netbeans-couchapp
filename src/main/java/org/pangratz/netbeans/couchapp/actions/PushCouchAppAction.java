@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.List;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import org.openide.awt.HtmlBrowser.URLDisplayer;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
@@ -36,9 +37,12 @@ public class PushCouchAppAction extends AbstractGenerateAction {
     protected String showOptionDialog(String msg) {
         try {
             List<CouchDbServer> couchDbServers = couchappUtil.getCouchDbServers(getCouchAppDirectory());
-            PushCouchAppDialog dialog = new PushCouchAppDialog(couchDbServers);
-            dialog.setVisible(true);
-            return dialog.getChosenCouchDbUrl();
+            PushCouchAppPanel panel = new PushCouchAppPanel(couchDbServers);
+            int chosenOption = JOptionPane.showConfirmDialog(null, panel, "Push CouchApp", JOptionPane.OK_CANCEL_OPTION);
+            if (JOptionPane.OK_OPTION == chosenOption) {
+                return panel.getChosenCouchDbUrl();
+            }
+            return null;
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
