@@ -72,8 +72,6 @@ public class CouchAppProject implements Project {
                         new DemoCopyOperation(this),
                         new Info(), //Project information implementation
                         logicalView, //Logical view of project implementation
-                        new CouchAppLookupItem(), // new CouchAppProjectOpenedHook(),
-                    // new PushCouchAppAction()
                     });
         }
         return lkp;
