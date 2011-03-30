@@ -77,20 +77,6 @@ public class CouchAppProject implements Project {
         return lkp;
     }
 
-    private final class CouchAppProjectOpenedHook extends ProjectOpenedHook {
-
-        @Override
-        protected void projectOpened() {
-            NotifyDescriptor nd = new NotifyDescriptor.Message("Project opened");
-            // DialogDisplayer.getDefault().notify(nd);
-        }
-
-        @Override
-        protected void projectClosed() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    }
-
     private final class ActionProviderImpl implements ActionProvider {
 
         public static final String PUSH_COUCHAPP_ACTION = "PUSH_COUCHAPP_ACTION";
