@@ -66,6 +66,9 @@ public class CouchAppFilesNode extends AbstractCouchAppFolderNode {
             if (ICouchAppUtil._ID.equals(name)) {
                 return true;
             }
+            if (ICouchAppUtil.README_MD.equals(name)) {
+                return true;
+            }
 
             return false;
 
