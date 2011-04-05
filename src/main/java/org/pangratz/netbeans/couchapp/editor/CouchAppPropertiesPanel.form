@@ -54,19 +54,19 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="couchAppNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="descriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="designDocIdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="designDocIdTextField" max="32767" attributes="1"/>
-                      <Component id="descriptionTextField" alignment="0" max="32767" attributes="1"/>
-                      <Component id="couchAppTextField" alignment="0" pref="230" max="32767" attributes="1"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="designDocIdTextField" pref="274" max="32767" attributes="1"/>
+                      <Component id="descriptionTextField" alignment="0" pref="274" max="32767" attributes="1"/>
+                      <Component id="couchAppTextField" alignment="0" pref="274" max="32767" attributes="2"/>
                   </Group>
-                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -154,7 +154,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="couchDbInstancesScrollPane" pref="358" max="32767" attributes="0"/>
+                  <Component id="couchDbInstancesScrollPane" pref="401" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
