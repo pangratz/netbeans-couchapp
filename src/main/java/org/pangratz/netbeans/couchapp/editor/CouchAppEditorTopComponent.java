@@ -5,17 +5,21 @@
 package org.pangratz.netbeans.couchapp.editor;
 
 import java.util.logging.Logger;
+import javax.swing.JComponent;
+import org.netbeans.spi.project.ui.support.ProjectCustomizer.Category;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import org.openide.windows.WindowManager;
 import org.openide.util.ImageUtilities;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 
 /**
  * Top component which displays something.
  */
 @ConvertAsProperties(dtd = "-//org.pangratz.netbeans.couchapp.editor//CouchAppEditor//EN", autostore = false)
-public final class CouchAppEditorTopComponent extends TopComponent {
+public final class CouchAppEditorTopComponent extends TopComponent implements ProjectCustomizer.CompositeCategoryProvider {
 
     private static CouchAppEditorTopComponent instance;
     /** path to the icon used by the component and its open action */
@@ -39,59 +43,75 @@ public final class CouchAppEditorTopComponent extends TopComponent {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        propertiesPanel = new javax.swing.JPanel();
+        couchAppNameLabel = new javax.swing.JLabel();
+        couchAppTextField = new javax.swing.JTextField();
+        descriptionLabel = new javax.swing.JLabel();
+        descriptionTextField = new javax.swing.JTextField();
+        designDocIdTextField = new javax.swing.JTextField();
+        designDocIdLabel = new javax.swing.JLabel();
+        couchDbInstancesPanel = new javax.swing.JPanel();
+        couchDbInstancesScrollPane = new javax.swing.JScrollPane();
+        couchDbInstancesTable = new javax.swing.JTable();
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.jLabel1.text")); // NOI18N
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.jPanel1.border.title"))); // NOI18N
+        propertiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.propertiesPanel.border.title"))); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(couchAppNameLabel, org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.couchAppNameLabel.text")); // NOI18N
 
-        jTextField1.setText(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.jTextField1.text")); // NOI18N
+        couchAppTextField.setText(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.couchAppTextField.text")); // NOI18N
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.jLabel3.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(descriptionLabel, org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.descriptionLabel.text")); // NOI18N
 
-        jTextField2.setText(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.jTextField2.text")); // NOI18N
+        descriptionTextField.setText(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.descriptionTextField.text")); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        designDocIdTextField.setText(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.designDocIdTextField.text")); // NOI18N
+
+        org.openide.awt.Mnemonics.setLocalizedText(designDocIdLabel, org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.designDocIdLabel.text")); // NOI18N
+
+        javax.swing.GroupLayout propertiesPanelLayout = new javax.swing.GroupLayout(propertiesPanel);
+        propertiesPanel.setLayout(propertiesPanelLayout);
+        propertiesPanelLayout.setHorizontalGroup(
+            propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(propertiesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                .addGroup(propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(couchAppNameLabel)
+                    .addComponent(descriptionLabel)
+                    .addComponent(designDocIdLabel))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addGroup(propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(propertiesPanelLayout.createSequentialGroup()
+                        .addGroup(propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(descriptionTextField)
+                            .addComponent(couchAppTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+                        .addContainerGap(217, Short.MAX_VALUE))
+                    .addGroup(propertiesPanelLayout.createSequentialGroup()
+                        .addComponent(designDocIdTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                        .addGap(217, 217, 217))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        propertiesPanelLayout.setVerticalGroup(
+            propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(propertiesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(couchAppNameLabel)
+                    .addComponent(couchAppTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(descriptionLabel)
+                    .addComponent(descriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(propertiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(designDocIdLabel)
+                    .addComponent(designDocIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.jPanel2.border.title"))); // NOI18N
+        couchDbInstancesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CouchAppEditorTopComponent.class, "CouchAppEditorTopComponent.couchDbInstancesPanel.border.title"))); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        couchDbInstancesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null}
             },
@@ -107,22 +127,22 @@ public final class CouchAppEditorTopComponent extends TopComponent {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        couchDbInstancesScrollPane.setViewportView(couchDbInstancesTable);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout couchDbInstancesPanelLayout = new javax.swing.GroupLayout(couchDbInstancesPanel);
+        couchDbInstancesPanel.setLayout(couchDbInstancesPanelLayout);
+        couchDbInstancesPanelLayout.setHorizontalGroup(
+            couchDbInstancesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(couchDbInstancesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                .addComponent(couchDbInstancesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        couchDbInstancesPanelLayout.setVerticalGroup(
+            couchDbInstancesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(couchDbInstancesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addComponent(couchDbInstancesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -130,35 +150,37 @@ public final class CouchAppEditorTopComponent extends TopComponent {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(propertiesPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(couchDbInstancesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(propertiesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addComponent(couchDbInstancesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel couchAppNameLabel;
+    private javax.swing.JTextField couchAppTextField;
+    private javax.swing.JPanel couchDbInstancesPanel;
+    private javax.swing.JScrollPane couchDbInstancesScrollPane;
+    private javax.swing.JTable couchDbInstancesTable;
+    private javax.swing.JLabel descriptionLabel;
+    private javax.swing.JTextField descriptionTextField;
+    private javax.swing.JLabel designDocIdLabel;
+    private javax.swing.JTextField designDocIdTextField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel propertiesPanel;
     // End of variables declaration//GEN-END:variables
+
     /**
      * Gets default instance. Do not use directly: reserved for *.settings files only,
      * i.e. deserialization routines; otherwise you could get a non-deserialized instance.
@@ -228,5 +250,23 @@ public final class CouchAppEditorTopComponent extends TopComponent {
     @Override
     protected String preferredID() {
         return PREFERRED_ID;
+    }
+
+    @ProjectCustomizer.CompositeCategoryProvider.Registration(projectType = "org-pangratz-netbeans-couchapp-CouchAppProject", position = 100)
+    public static CouchAppEditorTopComponent create() {
+        return getDefault();
+    }
+
+    @Override
+    public Category createCategory(Lookup lkp) {
+        return ProjectCustomizer.Category.create(
+                "CouchDB",
+                "CouchDB Config",
+                null);
+    }
+
+    @Override
+    public JComponent createComponent(Category ctgr, Lookup lkp) {
+        return this;
     }
 }
