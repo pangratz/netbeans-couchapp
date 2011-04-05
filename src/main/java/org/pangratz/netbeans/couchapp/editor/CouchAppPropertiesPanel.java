@@ -10,7 +10,10 @@
  */
 package org.pangratz.netbeans.couchapp.editor;
 
+import java.util.List;
 import java.util.Map;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil.CouchDbServer;
 
 /**
  *
@@ -18,9 +21,16 @@ import java.util.Map;
  */
 public class CouchAppPropertiesPanel extends javax.swing.JPanel {
 
+    private final CouchDbServerTableModel couchDbServerTableModel;
+
     /** Creates new form CouchAppPropertiesPanel */
     public CouchAppPropertiesPanel() {
+        couchDbServerTableModel = new CouchDbServerTableModel();
         initComponents();
+    }
+
+    public CouchDbServerTableModel getCouchDbServerTableModel() {
+        return couchDbServerTableModel;
     }
 
     /** This method is called from within the constructor to
@@ -68,11 +78,11 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
                     .add(descriptionLabel)
                     .add(designDocIdLabel))
                 .add(18, 18, 18)
-                .add(propertiesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(designDocIdTextField)
-                    .add(descriptionTextField)
-                    .add(couchAppTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .add(propertiesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(designDocIdTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                    .add(descriptionTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                    .add(couchAppTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE))
+                .addContainerGap())
         );
         propertiesPanelLayout.setVerticalGroup(
             propertiesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -94,22 +104,7 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
 
         couchDbInstancesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CouchAppPropertiesPanel.class, "CouchAppPropertiesPanel.couchDbInstancesPanel.border.title"))); // NOI18N
 
-        couchDbInstancesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null}
-            },
-            new String [] {
-                "Name", "Location"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        couchDbInstancesTable.setModel(couchDbServerTableModel);
         couchDbInstancesScrollPane.setViewportView(couchDbInstancesTable);
 
         org.jdesktop.layout.GroupLayout couchDbInstancesPanelLayout = new org.jdesktop.layout.GroupLayout(couchDbInstancesPanel);
@@ -118,7 +113,7 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
             couchDbInstancesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(couchDbInstancesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(couchDbInstancesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .add(couchDbInstancesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
                 .addContainerGap())
         );
         couchDbInstancesPanelLayout.setVerticalGroup(
@@ -133,7 +128,6 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 450, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
@@ -164,7 +158,21 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
     private javax.swing.JPanel propertiesPanel;
     // End of variables declaration//GEN-END:variables
 
-    public void setProperties(Map<String, Object> properties) {
+    public void setProperties(Map<String, Object> props) {
+        String couchappName = (String) props.get(ICouchAppUtil.PROP_COUCHAPP_NAME);
+        couchAppTextField.setText(couchappName);
+
+        String couchappDescription = (String) props.get(ICouchAppUtil.PROP_COUCHAPP_DESCRIPTION);
+        descriptionTextField.setText(couchappDescription);
+
+        String designDocName = (String) props.get(ICouchAppUtil.PROP_DESIGN_DOC_ID);
+        designDocIdTextField.setText(designDocName);
+
+        List<CouchDbServer> servers = (List<CouchDbServer>) props.get(ICouchAppUtil.PROP_COUCHDB_SERVERS);
+        couchDbServerTableModel.setServers(servers);
+    }
+
+    public Map<String, Object> getProperties() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

@@ -55,6 +55,17 @@ public class CouchAppProjectCustomizer implements CustomizerProvider {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 CouchAppPropertiesPanel couchAppPanel = (CouchAppPropertiesPanel) panels.get(couchAppCategory);
+                Map<String, Object> props = couchAppPanel.getProperties();
+
+                Lookup context = Utilities.actionsGlobalContext();
+                ICouchAppUtil couchAppUtil = context.lookup(ICouchAppUtil.class);
+
+                File projectDir = couchAppProject.getCouchAppDirectory();
+                try {
+                    couchAppUtil.writeProperties(projectDir, props);
+                } catch (IOException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
             }
         };
 
@@ -64,7 +75,7 @@ public class CouchAppProjectCustomizer implements CustomizerProvider {
 
     private JComponent getCouchAppPanel() {
         CouchAppPropertiesPanel couchAppPropertiesPanel = new CouchAppPropertiesPanel();
-        Lookup context = Utilities.actionsGlobalContext();
+        Lookup context = Lookup.getDefault();
         ICouchAppUtil couchAppUtil = context.lookup(ICouchAppUtil.class);
 
         try {
