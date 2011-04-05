@@ -1,5 +1,6 @@
 package org.pangratz.netbeans.couchapp;
 
+import org.pangratz.netbeans.couchapp.editor.CouchAppProjectCustomizer;
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
 import java.io.File;
