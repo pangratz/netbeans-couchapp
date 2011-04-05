@@ -8,8 +8,9 @@
  *
  * Created on 05.04.2011, 14:15:09
  */
-
 package org.pangratz.netbeans.couchapp.editor;
+
+import java.util.Map;
 
 /**
  *
@@ -150,8 +151,6 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel couchAppNameLabel;
     private javax.swing.JTextField couchAppTextField;
@@ -165,4 +164,7 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
     private javax.swing.JPanel propertiesPanel;
     // End of variables declaration//GEN-END:variables
 
+    public void setProperties(Map<String, Object> properties) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
