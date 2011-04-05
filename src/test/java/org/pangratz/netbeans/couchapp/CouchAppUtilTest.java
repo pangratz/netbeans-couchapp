@@ -154,8 +154,6 @@ public class CouchAppUtilTest extends TestCase {
         String description = json.get("description").toString();
         assertEquals("My CouchApp Description", description);
 
-        System.out.println(folder.toString());
-
         // check the couchdb servers
         List<CouchDbServer> couchDbServers = couchAppUtil.getCouchDbServers(folder);
         assertEquals(servers.size(), couchDbServers.size());
