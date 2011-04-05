@@ -57,7 +57,7 @@ public class CouchAppProjectCustomizer implements CustomizerProvider {
                 CouchAppPropertiesPanel couchAppPanel = (CouchAppPropertiesPanel) panels.get(couchAppCategory);
                 Map<String, Object> props = couchAppPanel.getProperties();
 
-                Lookup context = Utilities.actionsGlobalContext();
+                Lookup context = Lookup.getDefault();
                 ICouchAppUtil couchAppUtil = context.lookup(ICouchAppUtil.class);
 
                 File projectDir = couchAppProject.getCouchAppDirectory();

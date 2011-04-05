@@ -10,6 +10,7 @@
  */
 package org.pangratz.netbeans.couchapp.editor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil;
@@ -173,6 +174,11 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
     }
 
     public Map<String, Object> getProperties() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        Map<String, Object> props = new HashMap<String, Object>(4);
+        props.put(ICouchAppUtil.PROP_COUCHAPP_NAME, couchAppTextField.getText());
+        props.put(ICouchAppUtil.PROP_COUCHAPP_DESCRIPTION, descriptionTextField.getText());
+        props.put(ICouchAppUtil.PROP_DESIGN_DOC_ID, designDocIdTextField.getText());
+        props.put(ICouchAppUtil.PROP_COUCHDB_SERVERS, couchDbServerTableModel.getServers());
+        return props;
     }
 }
