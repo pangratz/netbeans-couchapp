@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * PushCouchAppPanel.java
- *
- * Created on 20.02.2011, 17:51:17
- */
 package org.pangratz.netbeans.couchapp.actions;
 
 import java.awt.Component;
@@ -16,14 +6,9 @@ import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JDialog;
 import javax.swing.JList;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil.CouchDbServer;
 
-/**
- *
- * @author clemens
- */
 public class PushCouchAppPanel extends javax.swing.JPanel {
 
     private static class CouchDbServerRenderer extends DefaultListCellRenderer {

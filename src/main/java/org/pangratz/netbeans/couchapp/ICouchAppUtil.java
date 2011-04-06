@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.pangratz.netbeans.couchapp;
 
 import java.io.File;
@@ -16,6 +12,8 @@ public interface ICouchAppUtil {
     public static final String COUCHAPPRC = ".couchapprc";
     public static final String COUCHAPP_JSON = "couchapp.json";
     public static final String _ID = "_id";
+    public static final String README_MD = "README.md";
+    
     public static final String FOLDER_ATTACHMENTS = "_attachments";
     public static final String FOLDER_VIEWS = "views";
     public static final String FOLDER_SHOWS = "shows";

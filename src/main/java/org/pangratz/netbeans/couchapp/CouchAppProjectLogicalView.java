@@ -17,7 +17,7 @@ class CouchAppProjectLogicalView implements LogicalViewProvider {
     }
 
     @Override
-    public org.openide.nodes.Node createLogicalView() {
+    public Node createLogicalView() {
         try {
             return new CouchAppNode(project);
         } catch (DataObjectNotFoundException donfe) {

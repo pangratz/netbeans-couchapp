@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.pangratz.netbeans.couchapp.actions;
 
 import java.io.File;
@@ -23,7 +19,6 @@ public abstract class AbstractCouchAppAction extends AbstractAction implements L
     private Lookup context = null;
     private Lookup.Result<CouchAppProject> result = null;
     protected final ICouchAppUtil couchappUtil;
-    private File couchAppDirectory;
 
     public AbstractCouchAppAction() {
         this(Utilities.actionsGlobalContext());

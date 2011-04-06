@@ -74,24 +74,9 @@ public class CouchAppProject implements Project {
                         logicalView, //Logical view of project implementation
                         new CouchAppLookupItem(), // new CouchAppProjectOpenedHook(),
                         new CouchAppProjectCustomizer(this)
-                    // new PushCouchAppAction()
                     });
         }
         return lkp;
-    }
-
-    private final class CouchAppProjectOpenedHook extends ProjectOpenedHook {
-
-        @Override
-        protected void projectOpened() {
-            NotifyDescriptor nd = new NotifyDescriptor.Message("Project opened");
-            // DialogDisplayer.getDefault().notify(nd);
-        }
-
-        @Override
-        protected void projectClosed() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
     }
 
     private final class ActionProviderImpl implements ActionProvider {
