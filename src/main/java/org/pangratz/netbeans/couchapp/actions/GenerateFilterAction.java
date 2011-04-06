@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.swing.Action;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
 public class GenerateFilterAction extends AbstractGenerateAction {
 
@@ -39,5 +40,15 @@ public class GenerateFilterAction extends AbstractGenerateAction {
     @Override
     protected String getName() {
         return "Generate Filter...";
+    }
+
+    @Override
+    protected String getErrorMessage() {
+        return "Filter already exists!";
+    }
+
+    @Override
+    protected String getFolderName() {
+        return ICouchAppUtil.FOLDER_FILTERS;
     }
 }

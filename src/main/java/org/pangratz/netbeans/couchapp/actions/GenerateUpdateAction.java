@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.swing.Action;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
 public class GenerateUpdateAction extends AbstractGenerateAction {
 
@@ -39,5 +40,15 @@ public class GenerateUpdateAction extends AbstractGenerateAction {
     @Override
     protected String getName() {
         return "Generate Update...";
+    }
+
+    @Override
+    protected String getFolderName() {
+        return ICouchAppUtil.FOLDER_UPDATES;
+    }
+
+    @Override
+    protected String getErrorMessage() {
+        return "Update already exists!";
     }
 }
