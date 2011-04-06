@@ -25,6 +25,8 @@ public class InputPanel extends javax.swing.JPanel implements DocumentListener {
     public InputPanel() {
         initComponents();
 
+        errorMessageLabel.setVisible(false);
+
         Document doc = inputTextField.getDocument();
         doc.addDocumentListener(this);
     }
