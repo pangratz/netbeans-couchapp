@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.swing.Action;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
 public class GenerateViewAction extends AbstractGenerateAction {
 
@@ -40,5 +41,15 @@ public class GenerateViewAction extends AbstractGenerateAction {
     @Override
     protected String getName() {
         return "Generate View...";
+    }
+
+    @Override
+    protected String getErrorMessage() {
+        return "View with given name already exists!";
+    }
+
+    @Override
+    protected String getFolderName() {
+        return ICouchAppUtil.FOLDER_VIEWS;
     }
 }

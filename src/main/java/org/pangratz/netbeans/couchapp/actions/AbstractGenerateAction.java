@@ -1,11 +1,15 @@
 package org.pangratz.netbeans.couchapp.actions;
 
+import com.google.common.collect.Multimap;
 import java.awt.event.ActionEvent;
+import java.util.Collection;
 import javax.swing.JOptionPane;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
 public abstract class AbstractGenerateAction extends AbstractCouchAppAction implements TextFieldChangeListener {
+
+    private Collection<String> list;
 
     public AbstractGenerateAction(Lookup context) {
         super(context);
@@ -54,7 +58,26 @@ public abstract class AbstractGenerateAction extends AbstractCouchAppAction impl
         return null;
     }
 
+    protected String getFolderName() {
+        return null;
+    }
+
+    @Override
     public String isValid(String value) {
+        String folderName = getFolderName();
+        if (folderName == null) {
+            return null;
+        }
+
+        if (list == null) {
+            Multimap<String, String> map = couchappUtil.getAllEntities(getCouchAppDirectory());
+            list = map.get(folderName);
+        }
+
+        if (list.contains(value)) {
+            return getErrorMessage();
+        }
+
         return null;
     }
 
@@ -71,4 +94,8 @@ public abstract class AbstractGenerateAction extends AbstractCouchAppAction impl
     protected abstract String getMessage();
 
     protected abstract boolean generate(Object chosenOption);
+
+    protected String getErrorMessage() {
+        return "File with given name already exists!";
+    }
 }

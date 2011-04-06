@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.swing.Action;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
+import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 
 public class GenerateShowAction extends AbstractGenerateAction {
 
@@ -39,5 +40,15 @@ public class GenerateShowAction extends AbstractGenerateAction {
     @Override
     protected String getName() {
         return "Generate Show...";
+    }
+
+    @Override
+    protected String getFolderName() {
+        return ICouchAppUtil.FOLDER_SHOWS;
+    }
+
+    @Override
+    protected String getErrorMessage() {
+        return "Show already exists!";
     }
 }
