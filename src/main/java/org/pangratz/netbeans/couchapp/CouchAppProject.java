@@ -16,9 +16,7 @@ import org.netbeans.spi.project.DeleteOperationImplementation;
 import org.netbeans.spi.project.CopyOperationImplementation;
 import org.netbeans.spi.project.ProjectState;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
-import org.netbeans.spi.project.ui.ProjectOpenedHook;
 import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
-import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Exceptions;
@@ -72,7 +70,6 @@ public class CouchAppProject implements Project {
                         new DemoCopyOperation(this),
                         new Info(), //Project information implementation
                         logicalView, //Logical view of project implementation
-                        new CouchAppLookupItem(), // new CouchAppProjectOpenedHook(),
                         new CouchAppProjectCustomizer(this)
                     });
         }
