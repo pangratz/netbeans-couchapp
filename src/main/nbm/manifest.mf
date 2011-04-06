@@ -2,3 +2,4 @@ Manifest-Version: 1.0
 OpenIDE-Module-Localizing-Bundle: org/pangratz/netbeans/couchapp/Bundle.properties
 OpenIDE-Module-Layer: org/pangratz/netbeans/couchapp/layer.xml
 OpenIDE-Module-Name: CouchAppProject
+OpenIDE-Module-Requires: org.openide.windows.WindowManager

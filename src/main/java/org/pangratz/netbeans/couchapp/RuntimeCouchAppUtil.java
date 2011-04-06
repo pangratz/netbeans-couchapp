@@ -9,17 +9,23 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONStreamAware;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 import org.openide.util.Exceptions;
@@ -208,5 +214,70 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         String couchappPyFile = getCouchappPyFile();
         String cmd = String.format("python %s clone %s %s", couchappPyFile, couchAppUrl.toString(), folder.getPath());
         executeCommand(cmd);
+    }
+
+    @Override
+    public Map<String, Object> readProperties(File folder) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>(4);
+
+        // get the design doc id
+        File idFile = new File(folder, _ID);
+        String designDocName = IOUtils.toString(new FileReader(idFile));
+        map.put(PROP_DESIGN_DOC_ID, designDocName);
+
+        // get the couchapp name and description
+        File couchAppJsonFile = new File(folder, COUCHAPP_JSON);
+        String tanga = IOUtils.toString(new FileReader(couchAppJsonFile));
+        try {
+            Object obj = JSONValue.parseWithException(tanga);
+            JSONObject json = (JSONObject) obj;
+
+            String name = json.get("name").toString();
+            String description = json.get("description").toString();
+
+            map.put(PROP_COUCHAPP_NAME, name);
+            map.put(PROP_COUCHAPP_DESCRIPTION, description);
+        } catch (ParseException ex) {
+            Exceptions.printStackTrace(ex);
+            throw new IllegalStateException("exception while reading " + COUCHAPP_JSON + " file");
+        }
+
+        List<CouchDbServer> couchDbServers = getCouchDbServers(folder);
+        map.put(PROP_COUCHDB_SERVERS, couchDbServers);
+
+        return map;
+    }
+
+    @Override
+    public void writeProperties(File folder, Map<String, Object> properties) throws IOException {
+        File idFile = new File(folder, _ID);
+        String designDocId = (String) properties.get(PROP_DESIGN_DOC_ID);
+        FileWriter fw = new FileWriter(idFile);
+        IOUtils.write(designDocId, fw);
+        IOUtils.closeQuietly(fw);
+
+        // write the name and description
+        File couchappJsonFile = new File(folder, COUCHAPP_JSON);
+        JSONObject couchappJson = new JSONObject();
+        couchappJson.put("name", properties.get(PROP_COUCHAPP_NAME));
+        couchappJson.put("description", properties.get(PROP_COUCHAPP_DESCRIPTION));
+        fw = new FileWriter(couchappJsonFile);
+        couchappJson.writeJSONString(fw);
+        IOUtils.closeQuietly(fw);
+
+        // write the couchdb servers
+        File couchappRcFile = new File(folder, COUCHAPPRC);
+        JSONObject couchappRcJson = new JSONObject();
+        JSONObject env = new JSONObject();
+        List<CouchDbServer> servers = (List<CouchDbServer>) properties.get(PROP_COUCHDB_SERVERS);
+        for (CouchDbServer couchDbServer : servers) {
+            JSONObject serverObj = new JSONObject();
+            serverObj.put("db", couchDbServer.getServer());
+            env.put(couchDbServer.getName(), serverObj);
+        }
+        couchappRcJson.put("env", env);
+        fw = new FileWriter(couchappRcFile);
+        couchappRcJson.writeJSONString(fw);
+        IOUtils.closeQuietly(fw);
     }
 }

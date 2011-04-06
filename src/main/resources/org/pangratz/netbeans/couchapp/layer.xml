@@ -3,18 +3,18 @@
 <filesystem>
     <folder name="Actions">
         <folder name="CouchApp">
-            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateViewAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateShowAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateListAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateFilterAction.instance" />
-            <file name="org-pangratz-netbeans-couchapp-actions-GenerateUpdateAction.instance" />
+            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateViewAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateShowAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateListAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateFilterAction.instance"/>
+            <file name="org-pangratz-netbeans-couchapp-actions-GenerateUpdateAction.instance"/>
         </folder>
     </folder>
     <folder name="Toolbars">
         <folder name="Build">
-            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance" >
-                <attr name="position" intvalue="0" />
+            <file name="org-pangratz-netbeans-couchapp-actions-PushCouchAppAction.instance">
+                <attr name="position" intvalue="0"/>
             </file>
         </folder>
     </folder>

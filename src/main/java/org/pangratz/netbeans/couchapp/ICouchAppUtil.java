@@ -8,13 +8,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
+import org.json.simple.JSONAware;
 
 public interface ICouchAppUtil {
 
     public static final String COUCHAPPRC = ".couchapprc";
     public static final String COUCHAPP_JSON = "couchapp.json";
     public static final String _ID = "_id";
-    
     public static final String FOLDER_ATTACHMENTS = "_attachments";
     public static final String FOLDER_VIEWS = "views";
     public static final String FOLDER_SHOWS = "shows";
@@ -22,6 +23,11 @@ public interface ICouchAppUtil {
     public static final String FOLDER_FILTERS = "filters";
     public static final String FOLDER_EVENTLY = "evently";
     public static final String FOLDER_UPDATES = "updates";
+
+    public static final String PROP_COUCHAPP_NAME = "couchapp_name";
+    public static final String PROP_COUCHAPP_DESCRIPTION = "couchapp_description";
+    public static final String PROP_DESIGN_DOC_ID = "design_doc_id";
+    public static final String PROP_COUCHDB_SERVERS = "couchdb_servers";
 
     public void generateCouchApp(File folder) throws IOException;
 
@@ -45,7 +51,10 @@ public interface ICouchAppUtil {
 
     public void cloneCouchApp(File folder, URL couchAppUrl) throws IOException;
 
-    public static final class CouchDbServer {
+    public Map<String, Object> readProperties(File folder) throws IOException ;
+    public void writeProperties(File folder, Map<String, Object> properties) throws IOException;
+
+    public static final class CouchDbServer implements JSONAware {
 
         private final String name, server;
 
@@ -60,6 +69,14 @@ public interface ICouchAppUtil {
 
         public String getServer() {
             return server;
+        }
+
+        @Override
+        public String toJSONString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("\")").append(name).append("\"");
+            sb.append(" : { \"db\" : \"").append(server).append("\" }");
+            return sb.toString();
         }
     }
 }

@@ -46,6 +46,8 @@ public class CouchAppNode extends AbstractNode {
         nodeActions.add(null);
         nodeActions.add(CommonProjectActions.setAsMainProjectAction());
         nodeActions.add(CommonProjectActions.closeProjectAction());
+        nodeActions.add(null);
+        nodeActions.add(CommonProjectActions.customizeProjectAction());
         return nodeActions.toArray(new Action[]{});
     }
 

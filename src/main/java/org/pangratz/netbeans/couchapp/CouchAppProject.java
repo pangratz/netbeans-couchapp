@@ -1,5 +1,6 @@
 package org.pangratz.netbeans.couchapp;
 
+import org.pangratz.netbeans.couchapp.editor.CouchAppProjectCustomizer;
 import java.awt.Image;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -17,7 +18,6 @@ import org.netbeans.spi.project.ProjectState;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
 import org.netbeans.spi.project.ui.ProjectOpenedHook;
 import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
-import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -73,6 +73,7 @@ public class CouchAppProject implements Project {
                         new Info(), //Project information implementation
                         logicalView, //Logical view of project implementation
                         new CouchAppLookupItem(), // new CouchAppProjectOpenedHook(),
+                        new CouchAppProjectCustomizer(this)
                     // new PushCouchAppAction()
                     });
         }
@@ -95,11 +96,9 @@ public class CouchAppProject implements Project {
 
     private final class ActionProviderImpl implements ActionProvider {
 
-        public static final String PUSH_COUCHAPP_ACTION = "PUSH_COUCHAPP_ACTION";
         private String[] supported = new String[]{
             ActionProvider.COMMAND_DELETE,
-            ActionProvider.COMMAND_COPY,
-            ActionProviderImpl.PUSH_COUCHAPP_ACTION
+            ActionProvider.COMMAND_COPY
         };
 
         @Override
@@ -115,10 +114,6 @@ public class CouchAppProject implements Project {
             if (string.equalsIgnoreCase(ActionProvider.COMMAND_COPY)) {
                 DefaultProjectOperations.performDefaultCopyOperation(CouchAppProject.this);
             }
-            if (PUSH_COUCHAPP_ACTION.equalsIgnoreCase(string)) {
-                NotifyDescriptor nd = new NotifyDescriptor.Message("Push Couchapp");
-                DialogDisplayer.getDefault().notify(nd);
-            }
         }
 
         @Override
@@ -126,8 +121,6 @@ public class CouchAppProject implements Project {
             if ((command.equals(ActionProvider.COMMAND_DELETE))) {
                 return true;
             } else if ((command.equals(ActionProvider.COMMAND_COPY))) {
-                return true;
-            } else if (command.equals(PUSH_COUCHAPP_ACTION)) {
                 return true;
             } else {
                 throw new IllegalArgumentException(command);
