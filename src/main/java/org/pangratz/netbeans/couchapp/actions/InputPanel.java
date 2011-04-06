@@ -24,7 +24,7 @@ public class InputPanel extends javax.swing.JPanel implements DocumentListener {
     public InputPanel() {
         initComponents();
 
-        errorMessageLabel.setVisible(false);
+        errorMessageLabel.setText("");
 
         Document doc = inputTextField.getDocument();
         doc.addDocumentListener(this);
@@ -109,10 +109,9 @@ public class InputPanel extends javax.swing.JPanel implements DocumentListener {
         String value = inputTextField.getText();
         String errorMsg = textFieldChangeListener.isValid(value);
         if (errorMsg == null) {
-            errorMessageLabel.setVisible(false);
+            errorMessageLabel.setText("");
         } else {
             errorMessageLabel.setText(errorMsg);
-            errorMessageLabel.setVisible(true);
         }
     }
 
