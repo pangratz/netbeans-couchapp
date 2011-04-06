@@ -10,7 +10,6 @@
  */
 package org.pangratz.netbeans.couchapp.actions;
 
-import java.awt.Color;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
