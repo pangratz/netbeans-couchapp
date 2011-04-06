@@ -4,11 +4,13 @@
  */
 package org.pangratz.netbeans.couchapp;
 
+import com.google.common.collect.Multimap;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import junit.framework.TestCase;
@@ -34,7 +36,7 @@ public class CouchAppUtilTest extends TestCase {
         File tmpDir = getTmpFolder();
         URL url = new URL(couchAppUrl);
         couchAppUtil.cloneCouchApp(tmpDir, url);
-        
+
         assertTrue("missing .couchapprc file", new File(tmpDir, ".couchapprc").exists());
         assertTrue("missing couchapp.json file", new File(tmpDir, "couchapp.json").exists());
         assertTrue("missing _attachments directory", new File(tmpDir, "_attachments").exists());
@@ -95,6 +97,41 @@ public class CouchAppUtilTest extends TestCase {
         couchAppUtil.generateUpdate(tmpDir, "myUpdate");
 
         assertTrue("updates/myUpdate.js does not exist", new File(tmpDir, "updates/myUpdate.js").exists());
+    }
+
+    public void testGetAllEntities() throws IOException {
+        File tmpDir = generateCouchApp();
+
+        couchAppUtil.generateFilter(tmpDir, "my_filter");
+        couchAppUtil.generateFilter(tmpDir, "my_second_filter");
+        couchAppUtil.generateList(tmpDir, "my_list");
+        couchAppUtil.generateShow(tmpDir, "my_show");
+        couchAppUtil.generateUpdate(tmpDir, "my_update");
+        couchAppUtil.generateView(tmpDir, "my_view");
+
+        Multimap<String, String> entries = couchAppUtil.getAllEntities(tmpDir);
+        
+        Collection<String> filters = entries.get(ICouchAppUtil.FOLDER_FILTERS);
+        assertEquals(2, filters.size());
+        assertTrue(filters.contains("my_filter"));
+        assertTrue(filters.contains("my_second_filter"));
+
+        Collection<String> lists = entries.get(ICouchAppUtil.FOLDER_LISTS);
+        assertEquals(1, lists.size());
+        assertTrue(lists.contains("my_list"));
+
+        Collection<String> shows = entries.get(ICouchAppUtil.FOLDER_SHOWS);
+        assertEquals(1, shows.size());
+        assertTrue(shows.contains("my_show"));
+
+        Collection<String> updates = entries.get(ICouchAppUtil.FOLDER_UPDATES);
+        assertEquals(1, updates.size());
+        assertTrue(updates.contains("my_update"));
+
+        Collection<String> views = entries.get(ICouchAppUtil.FOLDER_VIEWS);
+        assertEquals(2, views.size());
+        assertTrue(views.contains("my_view"));
+        assertTrue(views.contains("recent-items"));
     }
 
     public void testGetCouchDbServers() throws IOException {
