@@ -1,5 +1,8 @@
 package org.pangratz.netbeans.couchapp;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.TreeMultimap;
+import com.google.common.io.Files;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -8,7 +11,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.lang.String;
+import java.lang.String;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -204,5 +211,38 @@ public class RuntimeCouchAppUtil implements ICouchAppUtil {
         String couchappPyFile = getCouchappPyFile();
         String cmd = String.format("python %s clone %s %s", couchappPyFile, couchAppUrl.toString(), folder.getPath());
         executeCommand(cmd);
+    }
+
+    @Override
+    public Multimap<String, String> getAllEntities(File folder) {
+        Multimap<String, String> map = TreeMultimap.create();
+
+        // add all available views
+        File viewsFolder = new File(folder, FOLDER_VIEWS);
+        List<String> views = Arrays.asList(viewsFolder.list());
+        map.putAll(FOLDER_VIEWS, views);
+
+        addFolderEntries(map, folder, FOLDER_FILTERS);
+        addFolderEntries(map, folder, FOLDER_LISTS);
+        addFolderEntries(map, folder, FOLDER_SHOWS);
+        addFolderEntries(map, folder, FOLDER_UPDATES);
+
+        return map;
+    }
+
+    protected List<String> getFolderContentWithoutExtenstion(File folder) {
+        String[] entries = folder.list();
+        List<String> list = new ArrayList<String>(entries.length);
+        for (String entry : entries) {
+            String tanga = entry.replace(".js", "");
+            list.add(tanga);
+        }
+        return list;
+    }
+
+    private void addFolderEntries(Multimap<String, String> map, File folder, String subFolderName) {
+        File subFolder = new File(folder, subFolderName);
+        List<String> entries = getFolderContentWithoutExtenstion(subFolder);
+        map.putAll(subFolderName, entries);
     }
 }

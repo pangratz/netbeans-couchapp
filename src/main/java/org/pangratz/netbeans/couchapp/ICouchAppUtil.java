@@ -1,5 +1,6 @@
 package org.pangratz.netbeans.couchapp;
 
+import com.google.common.collect.Multimap;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -11,7 +12,6 @@ public interface ICouchAppUtil {
     public static final String COUCHAPP_JSON = "couchapp.json";
     public static final String _ID = "_id";
     public static final String README_MD = "README.md";
-    
     public static final String FOLDER_ATTACHMENTS = "_attachments";
     public static final String FOLDER_VIEWS = "views";
     public static final String FOLDER_SHOWS = "shows";
@@ -19,6 +19,13 @@ public interface ICouchAppUtil {
     public static final String FOLDER_FILTERS = "filters";
     public static final String FOLDER_EVENTLY = "evently";
     public static final String FOLDER_UPDATES = "updates";
+
+    /**
+     * Get a Multimap of available entities like lists, views, ... for a given couchapp folder.
+     * @param folder
+     * @return map with FOLDER_XXX keys
+     */
+    public Multimap<String, String> getAllEntities(File folder);
 
     public void generateCouchApp(File folder) throws IOException;
 
