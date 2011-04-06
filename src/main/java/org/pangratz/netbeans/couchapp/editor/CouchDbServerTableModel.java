@@ -40,6 +40,7 @@ public class CouchDbServerTableModel extends DefaultTableModel {
     @Override
     public void setValueAt(Object value, int row, int col) {
         CouchDbServer server = servers.get(row);
+
         String name = server.getName();
         if (col == 0) {
             name = (String) value;
@@ -84,5 +85,16 @@ public class CouchDbServerTableModel extends DefaultTableModel {
     @Override
     public Class<?> getColumnClass(int i) {
         return String.class;
+    }
+
+    public void addEmptyRow() {
+        servers.add(new CouchDbServer("name", "http://localhost:5984/"));
+        fireTableRowsInserted(servers.size(), servers.size());
+    }
+
+    @Override
+    public void removeRow(int row) {
+        servers.remove(row);
+        fireTableRowsDeleted(row, row);
     }
 }

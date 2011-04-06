@@ -13,6 +13,7 @@ package org.pangratz.netbeans.couchapp.editor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ListSelectionModel;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil;
 import org.pangratz.netbeans.couchapp.ICouchAppUtil.CouchDbServer;
 
@@ -28,6 +29,12 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
     public CouchAppPropertiesPanel() {
         couchDbServerTableModel = new CouchDbServerTableModel();
         initComponents();
+
+        couchDbInstancesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // setup button behavior
+        removeButton.setAction(new RemoveAction(couchDbInstancesTable, couchDbServerTableModel));
+        addButton.setAction(new AddAction(couchDbServerTableModel));
     }
 
     public CouchDbServerTableModel getCouchDbServerTableModel() {
@@ -53,6 +60,9 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
         couchDbInstancesPanel = new javax.swing.JPanel();
         couchDbInstancesScrollPane = new javax.swing.JScrollPane();
         couchDbInstancesTable = new javax.swing.JTable();
+        buttonPanel = new javax.swing.JPanel();
+        removeButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
 
         propertiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(CouchAppPropertiesPanel.class, "CouchAppPropertiesPanel.propertiesPanel.border.title"))); // NOI18N
 
@@ -108,20 +118,32 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
         couchDbInstancesTable.setModel(couchDbServerTableModel);
         couchDbInstancesScrollPane.setViewportView(couchDbInstancesTable);
 
+        removeButton.setText(org.openide.util.NbBundle.getMessage(CouchAppPropertiesPanel.class, "CouchAppPropertiesPanel.removeButton.text")); // NOI18N
+        removeButton.setEnabled(false);
+        buttonPanel.add(removeButton);
+
+        addButton.setText(org.openide.util.NbBundle.getMessage(CouchAppPropertiesPanel.class, "CouchAppPropertiesPanel.addButton.text")); // NOI18N
+        addButton.setEnabled(false);
+        buttonPanel.add(addButton);
+
         org.jdesktop.layout.GroupLayout couchDbInstancesPanelLayout = new org.jdesktop.layout.GroupLayout(couchDbInstancesPanel);
         couchDbInstancesPanel.setLayout(couchDbInstancesPanelLayout);
         couchDbInstancesPanelLayout.setHorizontalGroup(
             couchDbInstancesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(couchDbInstancesPanelLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, couchDbInstancesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(couchDbInstancesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                .add(couchDbInstancesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(couchDbInstancesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                    .add(buttonPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         couchDbInstancesPanelLayout.setVerticalGroup(
             couchDbInstancesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(couchDbInstancesPanelLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, couchDbInstancesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(couchDbInstancesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .add(couchDbInstancesScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .add(18, 18, 18)
+                .add(buttonPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -147,6 +169,8 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JPanel buttonPanel;
     private javax.swing.JLabel couchAppNameLabel;
     private javax.swing.JTextField couchAppTextField;
     private javax.swing.JPanel couchDbInstancesPanel;
@@ -157,6 +181,7 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
     private javax.swing.JLabel designDocIdLabel;
     private javax.swing.JTextField designDocIdTextField;
     private javax.swing.JPanel propertiesPanel;
+    private javax.swing.JButton removeButton;
     // End of variables declaration//GEN-END:variables
 
     public void setProperties(Map<String, Object> props) {
@@ -171,6 +196,8 @@ public class CouchAppPropertiesPanel extends javax.swing.JPanel {
 
         List<CouchDbServer> servers = (List<CouchDbServer>) props.get(ICouchAppUtil.PROP_COUCHDB_SERVERS);
         couchDbServerTableModel.setServers(servers);
+
+        addButton.setEnabled(true);
     }
 
     public Map<String, Object> getProperties() {
